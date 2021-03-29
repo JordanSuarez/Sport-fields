@@ -1,12 +1,18 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {SportFieldsComponent} from './sport-fields/sport-fields.component';
+import {FieldComponent} from './field/field.component';
+import {HomeComponent} from './home/home.component';
 
 const routes: Routes = [
   {
     path: '',
-    redirectTo: '/',
-    pathMatch: 'full'
+    component: HomeComponent
+  },
+  {
+    path: 'fields',
+    children: [
+      { path: ':fieldId', component: FieldComponent },
+    ]
   },
   {
     path: '**',

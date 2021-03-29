@@ -16,6 +16,12 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
 import { HomeComponent } from './home/home.component';
+import { AgmCoreModule } from '@agm/core';
+import { environment } from 'src/environments/environment';
+import { GoogleMapComponent } from './google-map/google-map.component';
+import {HttpClientModule} from '@angular/common/http';
+import { FieldComponent } from './field/field.component';
+
 
 @NgModule({
   declarations: [
@@ -23,6 +29,8 @@ import { HomeComponent } from './home/home.component';
     TopMenuComponent,
     SportFieldsComponent,
     HomeComponent,
+    GoogleMapComponent,
+    FieldComponent,
   ],
   imports: [
     BrowserModule,
@@ -37,6 +45,10 @@ import { HomeComponent } from './home/home.component';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
+    HttpClientModule,
+    AgmCoreModule.forRoot({
+      apiKey: environment.googleMapsKey
+    })
   ],
   providers: [],
   bootstrap: [AppComponent]

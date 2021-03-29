@@ -1,0 +1,11 @@
+<agm-map [latitude]='latitude' [longitude]='longitude' [mapTypeId]='googleMapType' [zoom]='zoom'>
+  <agm-marker
+    [latitude]="latitude"
+    [longitude]="longitude"
+    [label]="longitude"
+    >
+    <agm-info-window>
+      <strong>{{fieldName.properties.nom}}</strong>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>

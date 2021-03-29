@@ -5,6 +5,7 @@
 export const environment = {
   production: false,
   googleMapsKey: process.env.GOOGLE_MAPS_KEY,
+  reverseGeoUrl: 'https://api-adresse.data.gouv.fr/reverse/?',
 };
 
 /*
