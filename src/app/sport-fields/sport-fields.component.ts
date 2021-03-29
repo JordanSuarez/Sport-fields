@@ -2,6 +2,7 @@ import {Component, OnInit} from '@angular/core';
 import { map } from 'rxjs/operators';
 import { Breakpoints, BreakpointObserver } from '@angular/cdk/layout';
 import * as sportFields from '../../assets/data/sportFields.json';
+import { environment } from 'src/environments/environment';
 
 @Component({
   selector: 'app-sport-fields',
@@ -10,14 +11,12 @@ import * as sportFields from '../../assets/data/sportFields.json';
 })
 export class SportFieldsComponent implements OnInit {
 sportField: any = sportFields;
-// tslint:disable-next-line:typedef
-test(test: any): void {
-  console.log(test);
-}
+
   constructor(private breakpointObserver: BreakpointObserver) {}
   cards = this.breakpointObserver.observe(Breakpoints.Handset).pipe(
     map(({ matches }) => {
-      console.log(this.sportField)
+      console.log(this.sportField);
+      console.log(environment.googleMapsKey);
       return this.sportField.default;
     })
   );

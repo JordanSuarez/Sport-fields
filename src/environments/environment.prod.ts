@@ -1,3 +1,4 @@
 export const environment = {
-  production: true
+  production: true,
+  googleMapsKey: process.env.GOOGLE_MAPS_KEY,
 };
