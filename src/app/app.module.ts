@@ -11,7 +11,7 @@ import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
-import { SportFieldsComponent } from './sport-fields/sport-fields.component';
+import { FieldsComponent } from './fields/fields.component';
 import { MatGridListModule } from '@angular/material/grid-list';
 import { MatCardModule } from '@angular/material/card';
 import { MatMenuModule } from '@angular/material/menu';
@@ -27,7 +27,7 @@ import { FieldComponent } from './field/field.component';
   declarations: [
     AppComponent,
     TopMenuComponent,
-    SportFieldsComponent,
+    FieldsComponent,
     HomeComponent,
     GoogleMapComponent,
     FieldComponent,

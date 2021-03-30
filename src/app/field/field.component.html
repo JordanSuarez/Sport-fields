@@ -1,3 +1,8 @@
 <div>
-  <app-google-map [coordinates]="coordinates" [fieldName]="field"></app-google-map>
+  <div *ngIf="!isLoaded">toto ça load</div>
+  <div *ngIf="isLoaded">
+    <h1>{{field.equnom}}</h1>
+    <app-google-map [field]="field"></app-google-map>
+  </div>
+
 </div>

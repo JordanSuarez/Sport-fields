@@ -1,6 +1,8 @@
-import {Component, Input, OnInit} from '@angular/core';
+import {Component, OnInit} from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
-import {FieldService} from '../field.service';
+
+import { FieldService } from 'src/app/field.service';
+import { FieldDataModel } from 'src/app/models/field.model';
 
 @Component({
   selector: 'app-field',
@@ -8,15 +10,16 @@ import {FieldService} from '../field.service';
   styleUrls: ['./field.component.scss']
 })
 export class FieldComponent implements OnInit {
-  field: {} | undefined;
-  coordinates: any[] | undefined;
+  field!: FieldDataModel;
+  isLoaded = false;
 
   constructor(private fieldService: FieldService, private route: ActivatedRoute) { }
 
   ngOnInit(): void {
     const fieldId = this.route.snapshot.paramMap.get('fieldId');
-    const field = this.fieldService.getFieldById(fieldId);
-    this.field = field;
-    this.coordinates = field.geometry.coordinates[0][0];
+    this.fieldService.getFieldById(fieldId).subscribe(field => {
+      this.field = field.records[0].fields;
+      this.isLoaded = true;
+    });
   }
 }

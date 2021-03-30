@@ -1,16 +1,21 @@
 import { Injectable } from '@angular/core';
-import * as sportFields from 'src/assets/data/sportFields.json';
+import {HttpClient} from '@angular/common/http';
+import {Observable} from 'rxjs';
 
+import { FieldModel } from './models/field.model';
+import { environment } from '../environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FieldService {
-  constructor() {}
-  sportField: any = sportFields.default;
+  constructor(private http: HttpClient) {}
 
-  getFieldById(id: string | null): any {
-    console.log(id);
-    return this.sportField.find((field: { properties: { identifiant: string | null; }; }) => field.properties.identifiant === id);
+  getFieldList(rows: number, start: number, city: string): Observable<FieldModel> {
+    return this.http.get<FieldModel>(`${environment.openDataSoft}&q=&rows=${rows}&start=${start}&refine.comlib=${city}`);
+  }
+
+  getFieldById(id: string | null): Observable<FieldModel> {
+    return this.http.get<FieldModel>(`${environment.openDataSoft}&refine.recordid=${id}`);
   }
 }

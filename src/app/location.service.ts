@@ -10,7 +10,8 @@ import {environment} from 'src/environments/environment';
 export class LocationService {
   constructor( private http: HttpClient) {}
 
-  get(longitude: number, latitude: number): Observable<any> {
+  // TODO interface observable
+  get(latitude: number, longitude: number): Observable<any> {
     return this.http.get(`${environment.reverseGeoUrl}lon=${longitude}&lat=${latitude}`);
   }
 }

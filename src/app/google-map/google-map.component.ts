@@ -1,4 +1,6 @@
-import {Component, Input, OnInit} from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
+
+import {FieldDataModel} from 'src/app/models/field.model';
 
 @Component({
   selector: 'app-google-map',
@@ -6,21 +8,19 @@ import {Component, Input, OnInit} from '@angular/core';
   styleUrls: ['./google-map.component.scss']
 })
 export class GoogleMapComponent implements OnInit {
-  @Input() coordinates: any[] | undefined;
-  @Input() fieldName: any | undefined;
-  latitude: any;
-  longitude: any;
-  googleMapType = 'roadmap';
-  zoom = 18;
+  @Input() field!: FieldDataModel;
 
-  constructor() { }
+  latitude!: number;
+  longitude!: number;
+  zoom = 18;
+  googleMapType = 'roadmap';
+
+  constructor() {}
   // TODO change googleMapType with select
 
   ngOnInit(): void {
-    console.log(this.fieldName);
-    // @ts-ignore
-    this.latitude = this.coordinates[1];
-    // @ts-ignore
-    this.longitude = this.coordinates[0];
+    this.latitude = this.field.coordonnees[0];
+    this.longitude = this.field.coordonnees[1];
+    this.googleMapType = 'roadmap';
   }
 }
