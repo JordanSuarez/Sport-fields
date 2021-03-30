@@ -1,0 +1,10 @@
+<agm-map [latitude]='latitude' [longitude]='longitude' [mapTypeId]='googleMapType' [zoom]='zoom'>
+  <agm-marker
+    [latitude]="latitude"
+    [longitude]="longitude"
+    >
+    <agm-info-window>
+      <strong>{{field.equnom}}</strong>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>

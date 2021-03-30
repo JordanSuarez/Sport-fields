@@ -1,7 +1,4 @@
 import { Component } from '@angular/core';
-import { BreakpointObserver, Breakpoints } from '@angular/cdk/layout';
-import { Observable } from 'rxjs';
-import { map, shareReplay } from 'rxjs/operators';
 
 @Component({
   selector: 'app-top-menu',
@@ -10,10 +7,11 @@ import { map, shareReplay } from 'rxjs/operators';
 })
 export class TopMenuComponent {
 
-  isHandset$: Observable<boolean> = this.breakpointObserver.observe(Breakpoints.Handset)
-    .pipe(
-      map(result => result.matches),
-      shareReplay()
-    );
-  constructor(private breakpointObserver: BreakpointObserver) {}
+  navbarCollapsed = true;
+
+  constructor() {}
+
+  toggleNavbar(): void {
+    this.navbarCollapsed = !this.navbarCollapsed;
+  }
 }

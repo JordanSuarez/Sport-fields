@@ -1,11 +1,11 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="2" rowHeight="30rem">
-    <mat-grid-tile *ngFor="let card of cards | async">
+  <mat-grid-list cols="2" rowHeight="10rem">
+    <mat-grid-tile *ngFor="let field of fields">
       <mat-card class="dashboard-card">
         <mat-card-header>
           <mat-card-title>
-            {{card.properties.nom}}
+            {{field.fields.equnom}}
             <button mat-icon-button class="more-button" [matMenuTriggerFor]="menu" aria-label="Toggle menu">
               <mat-icon>more_vert</mat-icon>
             </button>
@@ -15,8 +15,13 @@
             </mat-menu>
           </mat-card-title>
         </mat-card-header>
-        <mat-card-content class="dashboard-card-content">
-          <div>Card Content Heresdcscdsdcsdcsdcscscsd</div>
+        <mat-card-content class="dashboard-card-content" >
+          <div *ngFor="let fieldLocation of fieldsLocation">
+            <span *ngIf="fieldLocation.id === field.recordid">Lieu: {{fieldLocation.label}}</span>
+          </div>
+          <button mat-raised-button color="primary" [routerLink]="['/fields', field.recordid]">
+            Voir plus
+          </button>
         </mat-card-content>
       </mat-card>
     </mat-grid-tile>
