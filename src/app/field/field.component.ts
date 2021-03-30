@@ -11,7 +11,7 @@ import { FieldDataModel } from 'src/app/models/field.model';
 })
 export class FieldComponent implements OnInit {
   field!: FieldDataModel;
-  isLoaded = false;
+  isLoading = true;
 
   constructor(private fieldService: FieldService, private route: ActivatedRoute) { }
 
@@ -19,7 +19,7 @@ export class FieldComponent implements OnInit {
     const fieldId = this.route.snapshot.paramMap.get('fieldId');
     this.fieldService.getFieldById(fieldId).subscribe(field => {
       this.field = field.records[0].fields;
-      this.isLoaded = true;
+      this.isLoading = false;
     });
   }
 }

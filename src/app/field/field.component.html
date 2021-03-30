@@ -1,8 +1,7 @@
 <div>
-  <div *ngIf="!isLoaded">toto ça load</div>
-  <div *ngIf="isLoaded">
+  <app-spinner [isLoading]="isLoading"></app-spinner>
+  <div *ngIf="!isLoading">
     <h1>{{field.equnom}}</h1>
     <app-google-map [field]="field"></app-google-map>
   </div>
-
 </div>

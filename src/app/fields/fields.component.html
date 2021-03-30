@@ -1,6 +1,7 @@
 <div class="grid-container">
   <h1 class="mat-h1">Dashboard</h1>
-  <mat-grid-list cols="2" rowHeight="10rem">
+  <app-spinner [isLoading]="isLoading"></app-spinner>
+  <mat-grid-list cols="2" rowHeight="10rem" *ngIf="!isLoading">
     <mat-grid-tile *ngFor="let field of fields">
       <mat-card class="dashboard-card">
         <mat-card-header>
