@@ -3,5 +3,27 @@
   <div *ngIf="!isLoading">
     <h1>{{field.equnom}}</h1>
     <app-google-map [field]="field"></app-google-map>
+    <button mat-stroked-button color="primary" (click)="handleClick(field.comlib, field.equipementtypecode)">
+      Voir d'autres lieux similaire
+    </button>
+    <div class="container">
+      <div *ngFor="let similarField of similarFields" class="maps">
+        <app-google-map
+          [field]="similarField"
+          [zoomControl]='zoomControl'
+          [disableDoubleClickZoom]='disableDoubleClickZoom'
+          [scrollwheel]='scrollwheel'
+          [disableDefaultUI]='disableDefaultUI'
+          [keyboardShortcuts]='keyboardShortcuts'
+          [streetViewControl]='streetViewControl'
+          [showDefaultInfoWindow]='showDefaultInfoWindow'
+          [mapDraggable]='mapDraggable'
+          [clickableIcons]='clickableIcons'
+          [mapTypeControl]='mapTypeControl'
+          [draggableCursor]="draggableCursor"
+        >
+        </app-google-map>
+      </div>
+    </div>
   </div>
 </div>

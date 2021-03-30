@@ -11,7 +11,7 @@ import { FieldService } from 'src/app/field.service';
   styleUrls: ['./fields.component.scss']
 })
 export class FieldsComponent implements OnInit {
-
+// TODO refacto component, create card component
   constructor(private locationService: LocationService, private fieldService: FieldService) {}
 
   fields: Array<FieldRecordsModel> = [];
@@ -19,7 +19,7 @@ export class FieldsComponent implements OnInit {
   isLoading = true;
 
   ngOnInit(): void {
-     this.fieldService.getFieldList(10, 0, 'Lyon').subscribe(fields => {
+     this.fieldService.getFields(10, 0, 'Lyon').subscribe(fields => {
        this.fields = fields.records;
        fields.records.map((field: FieldRecordsModel) => {
            this.locationService

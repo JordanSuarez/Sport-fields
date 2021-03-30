@@ -11,11 +11,15 @@ import { environment } from '../environments/environment';
 export class FieldService {
   constructor(private http: HttpClient) {}
 
-  getFieldList(rows: number, start: number, city: string): Observable<FieldModel> {
+  getFields(rows: number, start: number, city: string): Observable<FieldModel> {
     return this.http.get<FieldModel>(`${environment.openDataSoft}&q=&rows=${rows}&start=${start}&refine.comlib=${city}`);
   }
 
   getFieldById(id: string | null): Observable<FieldModel> {
     return this.http.get<FieldModel>(`${environment.openDataSoft}&refine.recordid=${id}`);
+  }
+
+  getFieldsByType(rows: number, city: string, type: string): Observable<FieldModel> {
+    return this.http.get<FieldModel>(`${environment.openDataSoft}&q=&rows=${rows}&refine.comlib=${city}&refine.equipementtypecode=${type}`);
   }
 }
