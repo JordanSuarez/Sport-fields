@@ -19,9 +19,10 @@ import { HomeComponent } from './home/home.component';
 import { AgmCoreModule } from '@agm/core';
 import { environment } from 'src/environments/environment';
 import { GoogleMapComponent } from './google-map/google-map.component';
-import {HttpClientModule} from '@angular/common/http';
+import { HttpClientModule } from '@angular/common/http';
 import { FieldComponent } from './field/field.component';
-
+import { SpinnerComponent } from './spinner/spinner.component';
+import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 
 @NgModule({
   declarations: [
@@ -31,6 +32,7 @@ import { FieldComponent } from './field/field.component';
     HomeComponent,
     GoogleMapComponent,
     FieldComponent,
+    SpinnerComponent,
   ],
   imports: [
     BrowserModule,
@@ -45,6 +47,7 @@ import { FieldComponent } from './field/field.component';
     MatGridListModule,
     MatCardModule,
     MatMenuModule,
+    MatProgressSpinnerModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey

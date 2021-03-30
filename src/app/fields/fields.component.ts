@@ -16,6 +16,7 @@ export class FieldsComponent implements OnInit {
 
   fields: Array<FieldRecordsModel> = [];
   fieldsLocation: Array<LocationModel> = [];
+  isLoading = true;
 
   ngOnInit(): void {
      this.fieldService.getFieldList(10, 0, 'Lyon').subscribe(fields => {
@@ -29,6 +30,7 @@ export class FieldsComponent implements OnInit {
                  id: field.recordid,
                };
                this.fieldsLocation.push(fieldLocation);
+               this.isLoading = false;
              })
            ;
          }
