@@ -1,8 +1,13 @@
-import {Component, OnInit, OnDestroy} from '@angular/core';
+import {Component, OnInit, OnDestroy, Inject} from '@angular/core';
+import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
+import { formatDate } from '@angular/common';
+import { LOCALE_ID } from '@angular/core';
 
 import { FieldService } from 'src/app/field.service';
-import { FieldDataModel, FieldRecordsModel } from 'src/app/models/field.model';
+import { FieldRecordsModel } from 'src/app/models/field.model';
+import { LocationService } from 'src/app/location.service';
+import { LocationModel } from 'src/app/models/location.model';
 
 @Component({
   selector: 'app-field',
@@ -26,15 +31,29 @@ export class FieldComponent implements OnInit, OnDestroy {
   draggableCursor = 'cursor';
 
   field!: FieldRecordsModel;
-  isLoading = false;
-  similarFields!: Array<FieldDataModel>;
+  fieldLocation!: LocationModel;
+  isLoading = true;
+  similarFields!: Array<FieldRecordsModel>;
   subscription!: Subscription;
+  date!: string;
+  localID: string;
 
+  constructor(
+    private fieldService: FieldService,
+    private route: ActivatedRoute,
+    private locationService: LocationService,
+    @Inject( LOCALE_ID ) localID: string
+  ) {
+    this.localID = localID;
+  }
 
-  constructor(private fieldService: FieldService) { }
-
-  ngOnInit(): Subscription {
-    return this.subscription = this.fieldService.currentField.subscribe(field => this.field = field);
+  ngOnInit(): void {
+    this.subscription = this.fieldService.currentField.subscribe(field => {
+      if (!field) {
+        return this.fetchFieldById();
+      }
+      this.handleDisplayField(field);
+    });
   }
 
   ngOnDestroy(): void {
@@ -42,8 +61,29 @@ export class FieldComponent implements OnInit, OnDestroy {
   }
 
   handleClick(city: string, fieldType: string): void {
-    this.fieldService.getFieldsByType(10, city, fieldType).subscribe(({records}) => {
-      this.similarFields = records.map(({fields}) => fields);
+    this.fieldService.getFieldsByType(11, city, fieldType).subscribe(({records}) => {
+      this.similarFields = records.filter((field) => {
+        return field.recordid !== this.field.recordid;
+      });
     });
+  }
+
+  fetchFieldById(): void {
+    const fieldId = this.route.snapshot.paramMap.get('fieldId');
+    this.fieldService.getFieldById(fieldId).subscribe(field => {
+      this.handleDisplayField(field.records[0]);
+    });
+  }
+
+  handleDisplayField(field: FieldRecordsModel): void {
+    this.locationService.getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
+      .subscribe(({features}) => {
+        if (field.fields.equdatecreation) {
+          this.date = formatDate(field.fields.equdatecreation, 'mediumDate', this.localID);
+        }
+        this.fieldLocation = features[0].properties;
+        this.field = field;
+        this.isLoading = false;
+      });
   }
 }

@@ -1,4 +1,4 @@
-export interface FieldModel {
+export interface FieldsModel {
   nhits: number;
   records: Array<FieldRecordsModel>;
 }
@@ -18,5 +18,5 @@ export interface FieldDataModel {
   naturesollib: string;
   equipementtypecode: string;
   equacceshandimaire: string;
-  equdatemaj: string;
+  equdatecreation: string;
 }

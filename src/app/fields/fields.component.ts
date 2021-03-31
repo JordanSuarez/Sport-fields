@@ -24,7 +24,7 @@ export class FieldsComponent implements OnInit {
        this.fields = fields.records;
        fields.records.map((field: FieldRecordsModel) => {
            this.locationService
-             .get(field.fields.coordonnees[0], field.fields.coordonnees[1])
+             .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
              .subscribe(({features}) => {
                const fieldLocation: LocationModel = {
                  ...features[0].properties,
@@ -40,6 +40,6 @@ export class FieldsComponent implements OnInit {
   }
 
   handleFieldProvider(field: FieldRecordsModel): void {
-    this.fieldService.getChoosenField(field);
+    this.fieldService.getSelectedField(field);
   }
 }

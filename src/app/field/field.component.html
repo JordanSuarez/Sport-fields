@@ -1,15 +1,23 @@
-<div>
+<div class="field">
   <app-spinner [isLoading]="isLoading"></app-spinner>
   <div *ngIf="!isLoading">
-    <h1>{{field.fields.equnom}}</h1>
+    <h1 class="field__title">{{field.fields.equnom}}<span class="field__subtitle"> - {{field.fields.insnom}}</span></h1>
+    <span *ngIf="date">Créé le {{date}}</span>
+    <mat-list>
+      <mat-list-item> Adresse : {{fieldLocation.label}} </mat-list-item>
+      <mat-list-item> Emplacement : {{field.fields.naturelibelle}} </mat-list-item>
+      <mat-list-item> Revêtement : {{field.fields.naturesollib}} </mat-list-item>
+      <mat-list-item> Accès handicapé : {{field.fields.equacceshandimaire}} </mat-list-item>
+    </mat-list>
+    <h2 class="field__title">Accès</h2>
     <app-google-map [field]="field.fields"></app-google-map>
     <button mat-stroked-button color="primary" (click)="handleClick(field.fields.comlib, field.fields.equipementtypecode)">
       Voir d'autres lieux similaire
     </button>
-    <div class="container">
-      <div *ngFor="let similarField of similarFields" class="maps">
+    <div class="field__container">
+      <div *ngFor="let similarField of similarFields" class="field__container__maps">
         <app-google-map
-          [field]="similarField"
+          [field]="similarField.fields"
           [zoomControl]='zoomControl'
           [disableDoubleClickZoom]='disableDoubleClickZoom'
           [scrollwheel]='scrollwheel'
