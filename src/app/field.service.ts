@@ -1,9 +1,9 @@
 import { Injectable } from '@angular/core';
-import {HttpClient} from '@angular/common/http';
-import {Observable} from 'rxjs';
+import { HttpClient } from '@angular/common/http';
+import { Observable, BehaviorSubject } from 'rxjs';
 
-import { FieldModel } from './models/field.model';
-import { environment } from '../environments/environment';
+import { FieldsModel, FieldRecordsModel} from './models/field.model';
+import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
@@ -11,11 +11,27 @@ import { environment } from '../environments/environment';
 export class FieldService {
   constructor(private http: HttpClient) {}
 
-  getFieldList(rows: number, start: number, city: string): Observable<FieldModel> {
-    return this.http.get<FieldModel>(`${environment.openDataSoft}&q=&rows=${rows}&start=${start}&refine.comlib=${city}`);
+  fieldSubject!: FieldRecordsModel;
+  private field = new BehaviorSubject(this.fieldSubject);
+  currentField = this.field.asObservable();
+
+  getFields(rows: number, start: number, city: string): Observable<FieldsModel> {
+    return this.http.get<FieldsModel>(
+      `${environment.openDataSoft}&q=&rows=${rows}&start=${start}&refine.comlib=${city}`
+    );
   }
 
-  getFieldById(id: string | null): Observable<FieldModel> {
-    return this.http.get<FieldModel>(`${environment.openDataSoft}&refine.recordid=${id}`);
+  getFieldsByType(rows: number, city: string, type: string): Observable<FieldsModel> {
+    return this.http.get<FieldsModel>(
+      `${environment.openDataSoft}&q=&rows=${rows}&refine.comlib=${city}&refine.equipementtypecode=${type}`
+    );
+  }
+
+  getSelectedField(field: FieldRecordsModel): void {
+    return this.field.next(field);
+  }
+
+  getFieldById(id: string | null): Observable<FieldsModel> {
+    return this.http.get<FieldsModel>(`${environment.openDataSoft}&refine.recordid=${id}`);
   }
 }

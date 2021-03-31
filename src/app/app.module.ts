@@ -1,5 +1,7 @@
-import { NgModule } from '@angular/core';
+import { NgModule, LOCALE_ID } from '@angular/core';
 import { BrowserModule } from '@angular/platform-browser';
+import { registerLocaleData } from '@angular/common';
+import localeFr from '@angular/common/locales/fr';
 
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
@@ -23,6 +25,9 @@ import { HttpClientModule } from '@angular/common/http';
 import { FieldComponent } from './field/field.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
+import { CardComponent } from './card/card.component';
+
+registerLocaleData(localeFr, 'fr');
 
 @NgModule({
   declarations: [
@@ -33,6 +38,7 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
     GoogleMapComponent,
     FieldComponent,
     SpinnerComponent,
+    CardComponent,
   ],
   imports: [
     BrowserModule,
@@ -53,7 +59,9 @@ import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
       apiKey: environment.googleMapsKey
     })
   ],
-  providers: [],
+  providers: [
+    {provide: LOCALE_ID, useValue: 'fr' }
+  ],
   bootstrap: [AppComponent]
 })
 export class AppModule { }

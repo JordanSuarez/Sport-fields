@@ -1,6 +1,6 @@
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
-import {HttpClient} from '@angular/common/http';
+import { HttpClient } from '@angular/common/http';
 
 import {environment} from 'src/environments/environment';
 
@@ -10,8 +10,7 @@ import {environment} from 'src/environments/environment';
 export class LocationService {
   constructor( private http: HttpClient) {}
 
-  // TODO interface observable
-  get(latitude: number, longitude: number): Observable<any> {
+  getFieldLocation(latitude: number, longitude: number): Observable<any> {
     return this.http.get(`${environment.reverseGeoUrl}lon=${longitude}&lat=${latitude}`);
   }
 }
