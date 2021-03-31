@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import { ActivatedRoute } from '@angular/router';
+import {Component, OnInit, OnDestroy} from '@angular/core';
+import { Subscription } from 'rxjs';
 
 import { FieldService } from 'src/app/field.service';
 import { FieldDataModel, FieldRecordsModel } from 'src/app/models/field.model';
@@ -9,11 +9,7 @@ import { FieldDataModel, FieldRecordsModel } from 'src/app/models/field.model';
   templateUrl: './field.component.html',
   styleUrls: ['./field.component.scss']
 })
-export class FieldComponent implements OnInit {
-  isLoading = true;
-  field!: FieldDataModel;
-  similarFields!: Array<FieldDataModel>;
-
+export class FieldComponent implements OnInit, OnDestroy {
   // Google map attributes
   zoomControl = false;
   disableDoubleClickZoom = true;
@@ -29,14 +25,20 @@ export class FieldComponent implements OnInit {
   mapTypeControl = false;
   draggableCursor = 'cursor';
 
-  constructor(private fieldService: FieldService, private route: ActivatedRoute) { }
+  field!: FieldRecordsModel;
+  isLoading = false;
+  similarFields!: Array<FieldDataModel>;
+  subscription!: Subscription;
 
-  ngOnInit(): void {
-    const fieldId = this.route.snapshot.paramMap.get('fieldId');
-    this.fieldService.getFieldById(fieldId).subscribe(field => {
-      this.field = field.records[0].fields;
-      this.isLoading = false;
-    });
+
+  constructor(private fieldService: FieldService) { }
+
+  ngOnInit(): Subscription {
+    return this.subscription = this.fieldService.currentField.subscribe(field => this.field = field);
+  }
+
+  ngOnDestroy(): void {
+    this.subscription.unsubscribe();
   }
 
   handleClick(city: string, fieldType: string): void {

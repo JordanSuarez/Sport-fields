@@ -20,7 +20,7 @@
           <div *ngFor="let fieldLocation of fieldsLocation">
             <span *ngIf="fieldLocation.id === field.recordid">Lieu: {{fieldLocation.label}}</span>
           </div>
-          <button mat-raised-button color="primary" [routerLink]="['/fields', field.recordid]">
+          <button mat-raised-button color="primary" [routerLink]="['/fields', field.recordid]" (click)="handleFieldProvider(field)">
             Voir plus
           </button>
         </mat-card-content>

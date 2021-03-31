@@ -1,9 +1,9 @@
 <div>
   <app-spinner [isLoading]="isLoading"></app-spinner>
   <div *ngIf="!isLoading">
-    <h1>{{field.equnom}}</h1>
-    <app-google-map [field]="field"></app-google-map>
-    <button mat-stroked-button color="primary" (click)="handleClick(field.comlib, field.equipementtypecode)">
+    <h1>{{field.fields.equnom}}</h1>
+    <app-google-map [field]="field.fields"></app-google-map>
+    <button mat-stroked-button color="primary" (click)="handleClick(field.fields.comlib, field.fields.equipementtypecode)">
       Voir d'autres lieux similaire
     </button>
     <div class="container">

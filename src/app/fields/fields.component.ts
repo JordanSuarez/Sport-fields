@@ -1,6 +1,6 @@
-import {Component, OnInit} from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 
-import { FieldRecordsModel } from 'src/app/models/field.model';
+import { FieldRecordsModel} from 'src/app/models/field.model';
 import { LocationModel } from 'src/app/models/location.model';
 import { LocationService } from 'src/app/location.service';
 import { FieldService } from 'src/app/field.service';
@@ -11,12 +11,13 @@ import { FieldService } from 'src/app/field.service';
   styleUrls: ['./fields.component.scss']
 })
 export class FieldsComponent implements OnInit {
-// TODO refacto component, create card component
   constructor(private locationService: LocationService, private fieldService: FieldService) {}
 
   fields: Array<FieldRecordsModel> = [];
   fieldsLocation: Array<LocationModel> = [];
   isLoading = true;
+
+// TODO refacto component, create card component
 
   ngOnInit(): void {
      this.fieldService.getFields(10, 0, 'Lyon').subscribe(fields => {
@@ -36,6 +37,9 @@ export class FieldsComponent implements OnInit {
          }
        );
      });
+  }
 
+  handleFieldProvider(field: FieldRecordsModel): void {
+    this.fieldService.getChoosenField(field);
   }
 }
