@@ -2,8 +2,8 @@
   <h2 class="card__title">
     {{field.fields.equnom}}
   </h2>
-    <section *ngFor="let fieldLocation of fieldsLocation" class="card__content__label">
-      <span *ngIf="fieldLocation.id === field.recordid">{{fieldLocation.label}}</span>
+    <section class="card__content__label">
+      <p>{{field.location.label}}</p>
     </section>
     <button mat-stroked-button color="primary" [routerLink]="['/fields', field.recordid]" (click)="handleFieldProvider(field)" class="card__content__button">
       Voir plus

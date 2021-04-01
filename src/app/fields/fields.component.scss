@@ -2,6 +2,10 @@
 
 .fields{
   margin: 1rem;
+  display: flex;
+  justify-content: space-between;
+  flex-direction: column;
+  height: 90vh;
   &__container {
     display: flex;
     flex-wrap: wrap;

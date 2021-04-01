@@ -11,6 +11,7 @@ import { MatToolbarModule } from '@angular/material/toolbar';
 import { MatListModule } from '@angular/material/list';
 import { LayoutModule } from '@angular/cdk/layout';
 import { MatButtonModule } from '@angular/material/button';
+import { MatPaginatorModule } from '@angular/material/paginator';
 import { MatSidenavModule } from '@angular/material/sidenav';
 import { MatIconModule } from '@angular/material/icon';
 import { FieldsComponent } from './fields/fields.component';
@@ -26,6 +27,7 @@ import { FieldComponent } from './field/field.component';
 import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CardComponent } from './card/card.component';
+import { PaginationComponent } from './pagination/pagination.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -39,6 +41,7 @@ registerLocaleData(localeFr, 'fr');
     FieldComponent,
     SpinnerComponent,
     CardComponent,
+    PaginationComponent,
   ],
   imports: [
     BrowserModule,
@@ -54,6 +57,7 @@ registerLocaleData(localeFr, 'fr');
     MatCardModule,
     MatMenuModule,
     MatProgressSpinnerModule,
+    MatPaginatorModule,
     HttpClientModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
