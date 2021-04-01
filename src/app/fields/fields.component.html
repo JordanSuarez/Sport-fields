@@ -1,0 +1,10 @@
+<div class="fields">
+  <h1 class="fields__title">Liste des équipements</h1>
+  <app-spinner [isLoading]="isLoading"></app-spinner>
+  <div *ngIf="!isLoading" class="fields__container">
+    <div *ngFor="let field of fields" class="fields__card">
+      <app-card [field]="field"></app-card>
+    </div>
+  </div>
+  <app-pagination [paginator]="paginator" (paginatorEvent)="handleChangePage($event)"></app-pagination>
+</div>

@@ -1,0 +1,29 @@
+<agm-map
+  [latitude]='latitude'
+  [longitude]='longitude'
+  [mapTypeId]='mapTypeId'
+  [zoom]='zoom'
+  [minZoom]='minZoom'
+  [zoomControl]='zoomControl'
+  [disableDoubleClickZoom]='disableDoubleClickZoom'
+  [scrollwheel]='scrollwheel'
+  [disableDefaultUI]='disableDefaultUI'
+  [keyboardShortcuts]='keyboardShortcuts'
+  [streetViewControl]='streetViewControl'
+  [showDefaultInfoWindow]='showDefaultInfoWindow'
+  [mapDraggable]='mapDraggable'
+  [clickableIcons]='clickableIcons'
+  [mapTypeControl]='mapTypeControl'
+  [draggableCursor]="draggableCursor"
+>
+  <agm-marker
+    [latitude]='latitude'
+    [longitude]='longitude'
+    [title]='title'
+    [openInfoWindow]='openInfoWindow'
+  >
+    <agm-info-window>
+      <strong>{{field.equnom}}</strong>
+    </agm-info-window>
+  </agm-marker>
+</agm-map>

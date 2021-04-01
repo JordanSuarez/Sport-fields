@@ -3,7 +3,10 @@
 // The list of file replacements can be found in `angular.json`.
 
 export const environment = {
-  production: false
+  production: false,
+  googleMapsKey: process.env.GOOGLE_MAPS_KEY,
+  reverseGeoUrl: 'https://api-adresse.data.gouv.fr/reverse/?',
+  openDataSoft: 'https://public.opendatasoft.com/api/records/1.0/search/?dataset=res_equipements_2017'
 };
 
 /*

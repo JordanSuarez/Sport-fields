@@ -7,7 +7,7 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { SportFieldsComponent } from './sport-fields.component';
+import { SportFieldsComponent } from './fields.component';
 
 describe('SportFieldsComponent', () => {
   let component: SportFieldsComponent;
