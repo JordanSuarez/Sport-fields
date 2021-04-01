@@ -15,6 +15,18 @@ const routes: Routes = [
     ]
   },
   {
+    path: 'basketball-fields',
+    component: HomeComponent
+  },
+  {
+    path: 'soccer-fields',
+    component: HomeComponent
+  },
+  {
+    path: 'athletics-tracks',
+    component: HomeComponent
+  },
+  {
     path: '**',
     redirectTo: '/',
     pathMatch: 'full'
