@@ -1,16 +1,17 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FieldService } from 'src/app/field.service';
-import { HOME, LocalStorageService } from 'src/app/local-storage.service';
+import { SOCCER, LocalStorageService } from 'src/app/local-storage.service';
 
 @Component({
-  selector: 'app-home',
-  templateUrl: './home.component.html',
-  styleUrls: ['./home.component.scss']
+  selector: 'app-soccer-fields',
+  templateUrl: './soccer-fields.component.html',
+  styleUrls: ['./soccer-fields.component.scss']
 })
-export class HomeComponent implements OnInit {
+export class SoccerFieldsComponent implements OnInit {
 
-  localStorageKey = HOME;
+  localStorageKey = SOCCER;
+  type = 2802;
 
   constructor(private fieldService: FieldService, private localStorageService: LocalStorageService) { }
 
@@ -20,6 +21,7 @@ export class HomeComponent implements OnInit {
 
   getFields = (...arg: any): any => {
     // @ts-ignore
-    return this.fieldService.getFields(...arg);
+    return this.fieldService.getFieldsByType(...arg, this.type);
   }
+
 }

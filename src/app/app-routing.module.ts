@@ -1,7 +1,11 @@
 import { NgModule } from '@angular/core';
 import { RouterModule, Routes } from '@angular/router';
-import {FieldComponent} from './field/field.component';
-import {HomeComponent} from './home/home.component';
+
+import { FieldComponent } from './field/field.component';
+import { HomeComponent } from './home/home.component';
+import { BasketBallFieldsComponent } from './basket-ball-fields/basket-ball-fields.component';
+import { SoccerFieldsComponent } from './soccer-fields/soccer-fields.component';
+import {AthleticsTracksComponent} from "./athletics-tracks/athletics-tracks.component";
 
 const routes: Routes = [
   {
@@ -16,15 +20,15 @@ const routes: Routes = [
   },
   {
     path: 'basketball-fields',
-    component: HomeComponent
+    component: BasketBallFieldsComponent
   },
   {
     path: 'soccer-fields',
-    component: HomeComponent
+    component: SoccerFieldsComponent
   },
   {
     path: 'athletics-tracks',
-    component: HomeComponent
+    component: AthleticsTracksComponent
   },
   {
     path: '**',

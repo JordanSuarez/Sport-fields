@@ -1,11 +1,12 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, Input, OnInit } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import { Observable } from 'rxjs';
 
 import { FieldRecordsModel, FieldsModel } from 'src/app/models/field.model';
+import { PaginatorModel } from 'src/app/models/paginator.model';
+import { LocalStorageService } from 'src/app/local-storage.service';
 import { LocationService } from 'src/app/location.service';
 import { FieldService } from 'src/app/field.service';
-import { FIELDS, LocalStorageService } from 'src/app/local-storage.service';
-import { PaginatorModel } from 'src/app/models/paginator.model';
 
 @Component({
   selector: 'app-sport-fields',
@@ -21,8 +22,13 @@ export class FieldsComponent implements OnInit {
   };
 
   // Fields Inputs
+  @Input() getFields!: (...arg: any) => Observable<any>;
   fields: Array<FieldRecordsModel> = [];
   isLoading = true;
+
+  // Localstorage Inputs
+  @Input() localStorageKey!: string;
+
 
   constructor(
     private locationService: LocationService,
@@ -31,9 +37,9 @@ export class FieldsComponent implements OnInit {
   ) {}
 
   ngOnInit(): void {
-    if (this.localStorageService.getItem(FIELDS) !== null) {
-      this.fields = this.localStorageService.getItem(FIELDS).fields;
-      this.paginator = this.localStorageService.getItem(FIELDS).paginator;
+    if (this.localStorageService.getItem(this.localStorageKey) !== null) {
+      this.fields = this.localStorageService.getItem(this.localStorageKey).fields;
+      this.paginator = this.localStorageService.getItem(this.localStorageKey).paginator;
       this.isLoading = false;
     } else {
       this.fetchFieldsList();
@@ -48,7 +54,7 @@ export class FieldsComponent implements OnInit {
   }
 
   fetchFieldsList(): void {
-    this.fieldService.getFields(this.paginator.pageSize, this.paginator.pageIndex, 'Lyon').subscribe(fields => {
+    this.getFields(this.paginator.pageSize, this.paginator.pageIndex * 10, 'Lyon').subscribe(fields => {
       this.paginator.length = fields.nhits;
       this.fetchFieldsLocation(fields);
     });
@@ -76,7 +82,7 @@ export class FieldsComponent implements OnInit {
 
   setFieldsDataToLocalStorage(): void {
     this.localStorageService.setItem(
-      FIELDS,
+      this.localStorageKey,
       {
         fields: this.fields,
         paginator: this.paginator

@@ -1,11 +1,12 @@
 <div class="card">
   <h2 class="card__title">
-    {{field.fields.equnom}}
+    {{field.fields.insnom}}
+    <span class="card__subtitle">{{field.fields.equnom}}</span>
   </h2>
-    <section class="card__content__label">
-      <p>{{field.location.label}}</p>
-    </section>
-    <button mat-stroked-button color="primary" [routerLink]="['/fields', field.recordid]" (click)="handleFieldProvider(field)" class="card__content__button">
-      Voir plus
-    </button>
+  <section class="card__content__label">
+    <p>{{field.location.label}}</p>
+  </section>
+  <button mat-stroked-button color="primary" [routerLink]="['/fields', field.recordid]" (click)="handleFieldProvider(field)" class="card__content__button">
+    Voir plus
+  </button>
 </div>
