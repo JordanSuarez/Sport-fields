@@ -19,7 +19,6 @@ export class PaginationComponent implements OnInit {
   ngOnInit(): void {}
 
   pageEvent(event: PageEvent): void {
-    console.log(event, this.paginator)
     this.paginatorEvent.emit(event);
   }
 }

@@ -1,6 +1,11 @@
 import { Injectable } from '@angular/core';
 
-export const FIELDS = 'fields';
+export const HOME = 'home';
+export const BASKETBALL = 'basketball';
+export const SOCCER = 'soccer';
+export const ATHLETICS = 'athletics';
+
+export const localStorageKeys = [HOME, BASKETBALL, SOCCER, ATHLETICS];
 
 @Injectable({
   providedIn: 'root'
@@ -9,14 +14,22 @@ export class LocalStorageService {
 
   constructor() {}
 
-  public setItem(key: string, value: any): void {
+  setItem(key: string, value: any): void {
     localStorage.setItem(key, JSON.stringify(value));
   }
 
-  public getItem(key: string): any {
+  getItem(key: string): any {
     return JSON.parse(localStorage.getItem(key) as any);
   }
-  public removeItem(key: string): void {
+  removeItem(key: string): void {
     localStorage.removeItem(key);
+  }
+
+  clearItems(localStorageKey: string): void {
+    localStorageKeys.map(key => {
+      if (key !== localStorageKey) {
+        this.removeItem(key);
+      }
+    });
   }
 }

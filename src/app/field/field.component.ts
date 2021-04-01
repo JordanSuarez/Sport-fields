@@ -8,7 +8,7 @@ import { FieldService } from 'src/app/field.service';
 import { FieldRecordsModel } from 'src/app/models/field.model';
 import { LocationService } from 'src/app/location.service';
 import { LocationModel } from 'src/app/models/location.model';
-import {FIELDS, LocalStorageService} from 'src/app/local-storage.service';
+import {HOME, LocalStorageService} from 'src/app/local-storage.service';
 
 @Component({
   selector: 'app-field',
@@ -48,7 +48,7 @@ export class FieldComponent implements OnInit, OnDestroy {
     @Inject( LOCALE_ID ) localID: string
   ) {
     this.localID = localID;
-    this.localStorageService.removeItem(FIELDS);
+    this.localStorageService.removeItem(HOME);
   }
 
   ngOnInit(): void {
@@ -65,7 +65,7 @@ export class FieldComponent implements OnInit, OnDestroy {
   }
 
   handleClick(city: string, fieldType: string): void {
-    this.fieldService.getFieldsByType(11, city, fieldType).subscribe(({records}) => {
+    this.fieldService.getFieldsByType(11, 0, city, fieldType).subscribe(({records}) => {
       this.similarFields = records.filter((field) => {
         return field.recordid !== this.field.recordid;
       });

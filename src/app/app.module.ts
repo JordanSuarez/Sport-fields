@@ -28,6 +28,9 @@ import { SpinnerComponent } from './spinner/spinner.component';
 import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
 import { CardComponent } from './card/card.component';
 import { PaginationComponent } from './pagination/pagination.component';
+import { BasketBallFieldsComponent } from './basket-ball-fields/basket-ball-fields.component';
+import { SoccerFieldsComponent } from './soccer-fields/soccer-fields.component';
+import { AthleticsTracksComponent } from './athletics-tracks/athletics-tracks.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -42,6 +45,9 @@ registerLocaleData(localeFr, 'fr');
     SpinnerComponent,
     CardComponent,
     PaginationComponent,
+    BasketBallFieldsComponent,
+    SoccerFieldsComponent,
+    AthleticsTracksComponent,
   ],
   imports: [
     BrowserModule,

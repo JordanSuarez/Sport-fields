@@ -21,9 +21,9 @@ export class FieldService {
     );
   }
 
-  getFieldsByType(rows: number, city: string, type: string): Observable<FieldsModel> {
+  getFieldsByType(rows: number, start: number, city: string, type: string): Observable<FieldsModel> {
     return this.http.get<FieldsModel>(
-      `${environment.openDataSoft}&q=&rows=${rows}&refine.comlib=${city}&refine.equipementtypecode=${type}`
+      `${environment.openDataSoft}&q=&rows=${rows}&start=${start}&refine.comlib=${city}&refine.equipementtypecode=${type}`
     );
   }
 

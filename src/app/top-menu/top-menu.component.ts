@@ -14,4 +14,8 @@ export class TopMenuComponent {
   toggleNavbar(): void {
     this.navbarCollapsed = !this.navbarCollapsed;
   }
+
+  closeNavBar(): void {
+    this.navbarCollapsed = true;
+  }
 }
