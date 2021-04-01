@@ -8,6 +8,7 @@ import { FieldService } from 'src/app/field.service';
 import { FieldRecordsModel } from 'src/app/models/field.model';
 import { LocationService } from 'src/app/location.service';
 import { LocationModel } from 'src/app/models/location.model';
+import {FIELDS, LocalStorageService} from 'src/app/local-storage.service';
 
 @Component({
   selector: 'app-field',
@@ -43,9 +44,11 @@ export class FieldComponent implements OnInit, OnDestroy {
     private fieldService: FieldService,
     private route: ActivatedRoute,
     private locationService: LocationService,
+    private localStorageService: LocalStorageService,
     @Inject( LOCALE_ID ) localID: string
   ) {
     this.localID = localID;
+    this.localStorageService.removeItem(FIELDS);
   }
 
   ngOnInit(): void {
