@@ -1,5 +1,6 @@
 import { Component, Input, OnInit, Output, EventEmitter } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
+import {PaginatorModel} from 'src/app/models/paginator.model';
 
 @Component({
   selector: 'app-pagination',
@@ -8,8 +9,7 @@ import { PageEvent } from '@angular/material/paginator';
 })
 export class PaginationComponent implements OnInit {
   // Paginator Inputs
-  @Input() length!: number;
-  @Input() pageSize!: number;
+  @Input() paginator!: PaginatorModel;
 
   // Paginator Output
   @Output() paginatorEvent = new EventEmitter<any>();
