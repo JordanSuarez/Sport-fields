@@ -15,7 +15,7 @@ import { LocationModel } from 'src/app/models/location.model';
   styleUrls: ['./field.component.scss']
 })
 export class FieldComponent implements OnInit, OnDestroy {
-  // Google map attributes
+  // GoogleMap Input
   zoomControl = false;
   disableDoubleClickZoom = true;
   scrollwheel = false;
@@ -30,6 +30,7 @@ export class FieldComponent implements OnInit, OnDestroy {
   mapTypeControl = false;
   draggableCursor = 'cursor';
 
+  // Field Input
   field!: FieldRecordsModel;
   fieldLocation!: LocationModel;
   isLoading = true;
