@@ -56,7 +56,7 @@ export class FieldsComponent implements OnInit {
 
   fetchFieldsLocation(fields: FieldsModel): void {
     fields.records.map((field: FieldRecordsModel) => {
-        this.locationService
+      this.locationService
           .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
           .subscribe(({features}) => {
             this.fields = [
@@ -66,19 +66,20 @@ export class FieldsComponent implements OnInit {
                 location: features[0].properties,
               }
             ];
-            this.localStorageService.setItem(
-              FIELDS,
-              {
-                fields: this.fields,
-                paginator: {
-                  length: this.paginator.length,
-                  pageIndex: this.paginator.pageIndex
-                }
-              }
-            );
+            this.setFieldsDataToLocalStorage();
             this.isLoading = false;
           })
         ;
+      }
+    );
+  }
+
+  setFieldsDataToLocalStorage(): void {
+    this.localStorageService.setItem(
+      FIELDS,
+      {
+        fields: this.fields,
+        paginator: this.paginator
       }
     );
   }
