@@ -17,8 +17,6 @@ export class FieldsComponent implements OnInit {
   fieldsLocation: Array<LocationModel> = [];
   isLoading = true;
 
-// TODO refacto component, create card component
-
   ngOnInit(): void {
      this.fieldService.getFields(10, 0, 'Lyon').subscribe(fields => {
        this.fields = fields.records;
@@ -37,9 +35,5 @@ export class FieldsComponent implements OnInit {
          }
        );
      });
-  }
-
-  handleFieldProvider(field: FieldRecordsModel): void {
-    this.fieldService.getSelectedField(field);
   }
 }

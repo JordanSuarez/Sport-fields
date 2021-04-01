@@ -1,3 +1,5 @@
+@use 'src/vars';
+
 .fields{
   margin: 1rem;
   &__container {
@@ -5,10 +7,7 @@
     flex-wrap: wrap;
     justify-content: center;
   }
-  &__card-container {
-    width: 50%;
-  }
   &__card {
-    margin: 1rem;
+    width: 50%;
   }
 }
