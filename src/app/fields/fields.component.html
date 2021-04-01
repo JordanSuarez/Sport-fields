@@ -2,22 +2,8 @@
   <h1 class="mat-h1 fields__title">Liste des équipements</h1>
   <app-spinner [isLoading]="isLoading"></app-spinner>
   <div *ngIf="!isLoading" class="fields__container">
-    <div *ngFor="let field of fields" class="fields__card-container">
-      <mat-card class="dashboard-card fields__card">
-        <mat-card-header>
-          <mat-card-title>
-            {{field.fields.equnom}}
-          </mat-card-title>
-        </mat-card-header>
-        <mat-card-content class="dashboard-card-content" >
-          <div *ngFor="let fieldLocation of fieldsLocation">
-            <span *ngIf="fieldLocation.id === field.recordid">Adresse: {{fieldLocation.label}}</span>
-          </div>
-          <button mat-raised-button color="primary" [routerLink]="['/fields', field.recordid]" (click)="handleFieldProvider(field)">
-            Voir plus
-          </button>
-        </mat-card-content>
-      </mat-card>
+    <div *ngFor="let field of fields" class="fields__card">
+      <app-card [field]="field" [fieldsLocation]="fieldsLocation"></app-card>
     </div>
   </div>
 </div>
