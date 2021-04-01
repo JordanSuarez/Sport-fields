@@ -1,7 +1,7 @@
 <div class="field">
   <app-spinner [isLoading]="isLoading"></app-spinner>
   <div *ngIf="!isLoading">
-    <h1 class="field__title">{{field.fields.equnom}}<span class="field__subtitle"> - {{field.fields.insnom}}</span></h1>
+    <h1 class="field__title">{{field.fields.insnom}}<span class="field__subtitle"> - {{field.fields.equnom}}</span></h1>
     <span *ngIf="date">Créé le {{date}}</span>
     <mat-list>
       <mat-list-item> Adresse : {{fieldLocation.label}} </mat-list-item>

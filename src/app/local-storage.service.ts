@@ -25,7 +25,7 @@ export class LocalStorageService {
     localStorage.removeItem(key);
   }
 
-  clearItems(localStorageKey: string): void {
+  clearItems(localStorageKey: string = ''): void {
     localStorageKeys.map(key => {
       if (key !== localStorageKey) {
         this.removeItem(key);

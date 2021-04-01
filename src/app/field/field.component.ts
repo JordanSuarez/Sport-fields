@@ -48,7 +48,7 @@ export class FieldComponent implements OnInit, OnDestroy {
     @Inject( LOCALE_ID ) localID: string
   ) {
     this.localID = localID;
-    this.localStorageService.removeItem(HOME);
+    this.localStorageService.clearItems();
   }
 
   ngOnInit(): void {
