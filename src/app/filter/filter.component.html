@@ -1,0 +1,41 @@
+<div class="row">
+  <div class="col-md-4 offset-md-4">
+    <h1>Filter</h1>
+    <div id="registration-error" class="alert alert-danger" *ngIf="noResult">
+      <button type="button" class="close" aria-label="Close" (click)="noResult = false">
+        <span aria-hidden="true">&#215;</span>
+      </button>
+      Oops! Aucun résultat trouvé
+    </div>
+    <form (ngSubmit)="handleSubmit()" [formGroup]="addressForm">
+      <div class="form-group">
+        <label for="street-number">Numéro</label>
+        <input id="street-number" class="form-control" type="number" formControlName="streetNumber" (click)="noResult= false"/>
+        <div *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('required')">Le champ est requis</div>
+        <div *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('min')">
+          Le numéro de la voie doit être supérieur à 0
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="street" id="street-label">Voie</label>
+        <input id="street" class="form-control" formControlName="streetName" (click)="noResult= false"/>
+        <div *ngIf="streetNameCtrl.dirty && streetNameCtrl.hasError('required')">Le champ est requis</div>
+      </div>
+      <div class="form-group">
+        <label for="post-code">Code postal</label>
+        <input id="post-code" class="form-control" type="number" formControlName="postCode" (click)="noResult= false"/>
+        <div *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('required')">Le champ est requis</div>
+        <div *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('pattern')">
+          Le code postale doit être composé de 5 chiffres
+        </div>
+      </div>
+      <div class="form-group">
+        <label for="city">Ville</label>
+        <input id="city" class="form-control" formControlName="city" (click)="noResult= false"/>
+        <div *ngIf="cityCtrl.dirty && cityCtrl.hasError('required')">Le champ est requis</div>
+      </div>
+      <button class="btn btn-primary" type="submit" [disabled]="addressForm.invalid || submitting">Let's Go!</button>
+    </form>
+    <app-select *ngIf="manyResults" [addressList]="addressList"></app-select>
+  </div>
+</div>

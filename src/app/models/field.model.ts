@@ -1,4 +1,4 @@
-import {LocationModel} from './location.model';
+import { LocationPropertiesModel } from './location.model';
 
 export interface FieldsModel {
   nhits: number;
@@ -8,7 +8,7 @@ export interface FieldsModel {
 export interface FieldRecordsModel {
   fields: FieldDataModel;
   recordid: string;
-  location: LocationModel;
+  location: LocationPropertiesModel;
 }
 
 export interface FieldDataModel {

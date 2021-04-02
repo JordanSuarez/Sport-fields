@@ -7,8 +7,8 @@ import { LOCALE_ID } from '@angular/core';
 import { FieldService } from 'src/app/field.service';
 import { FieldRecordsModel } from 'src/app/models/field.model';
 import { LocationService } from 'src/app/location.service';
-import { LocationModel } from 'src/app/models/location.model';
-import {HOME, LocalStorageService} from 'src/app/local-storage.service';
+import { LocationPropertiesModel } from 'src/app/models/location.model';
+import { LocalStorageService } from 'src/app/local-storage.service';
 
 @Component({
   selector: 'app-field',
@@ -33,7 +33,7 @@ export class FieldComponent implements OnInit, OnDestroy {
 
   // Field Input
   field!: FieldRecordsModel;
-  fieldLocation!: LocationModel;
+  fieldLocation!: LocationPropertiesModel;
   isLoading = true;
   similarFields!: Array<FieldRecordsModel>;
   subscription!: Subscription;

@@ -5,7 +5,7 @@ import { FieldComponent } from './field/field.component';
 import { HomeComponent } from './home/home.component';
 import { BasketBallFieldsComponent } from './basket-ball-fields/basket-ball-fields.component';
 import { SoccerFieldsComponent } from './soccer-fields/soccer-fields.component';
-import {AthleticsTracksComponent} from "./athletics-tracks/athletics-tracks.component";
+import { AthleticsTracksComponent } from './athletics-tracks/athletics-tracks.component';
 
 const routes: Routes = [
   {

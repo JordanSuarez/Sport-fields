@@ -1,11 +1,11 @@
 import { Injectable } from '@angular/core';
 
-export const HOME = 'home';
-export const BASKETBALL = 'basketball';
-export const SOCCER = 'soccer';
-export const ATHLETICS = 'athletics';
+export const HOME_FIELDS = 'homeFields';
+export const BASKETBALL_FIELDS = 'basketballFields';
+export const SOCCER_FIELDS = 'soccerFields';
+export const ATHLETICS_FIELDS = 'athleticsFields';
 
-export const localStorageKeys = [HOME, BASKETBALL, SOCCER, ATHLETICS];
+export const localStorageKeys = [HOME_FIELDS, BASKETBALL_FIELDS, SOCCER_FIELDS, ATHLETICS_FIELDS];
 
 @Injectable({
   providedIn: 'root'

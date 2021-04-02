@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FieldService } from 'src/app/field.service';
-import { SOCCER, LocalStorageService } from 'src/app/local-storage.service';
+import { SOCCER_FIELDS, LocalStorageService } from 'src/app/local-storage.service';
 
 @Component({
   selector: 'app-soccer-fields',
@@ -10,7 +10,7 @@ import { SOCCER, LocalStorageService } from 'src/app/local-storage.service';
 })
 export class SoccerFieldsComponent implements OnInit {
 
-  localStorageKey = SOCCER;
+  localStorageKey = SOCCER_FIELDS;
   type = 2802;
 
   constructor(private fieldService: FieldService, private localStorageService: LocalStorageService) { }

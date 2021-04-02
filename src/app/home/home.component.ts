@@ -1,7 +1,7 @@
 import { Component, OnInit } from '@angular/core';
 
 import { FieldService } from 'src/app/field.service';
-import { HOME, LocalStorageService } from 'src/app/local-storage.service';
+import { HOME_FIELDS, LocalStorageService } from 'src/app/local-storage.service';
 
 @Component({
   selector: 'app-home',
@@ -10,7 +10,7 @@ import { HOME, LocalStorageService } from 'src/app/local-storage.service';
 })
 export class HomeComponent implements OnInit {
 
-  localStorageKey = HOME;
+  localStorageKey = HOME_FIELDS;
 
   constructor(private fieldService: FieldService, private localStorageService: LocalStorageService) { }
 
