@@ -1,6 +1,6 @@
-import { Component, Inject, OnInit } from '@angular/core';
+import { Component } from '@angular/core';
 import { FormBuilder, FormControl, Validators } from '@angular/forms';
-import { MAT_DIALOG_DATA, MatDialogRef } from '@angular/material/dialog';
+import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 import { LocationModel } from 'src/app/models/location.model';
 import { LocationService } from 'src/app/location.service';
@@ -11,12 +11,13 @@ import { FieldService } from 'src/app/field.service';
   templateUrl: './filter.component.html',
   styleUrls: ['./filter.component.scss']
 })
-export class FilterComponent implements OnInit {
+export class FilterComponent {
   isOpen!: boolean;
   noResult!: boolean;
   manyResults!: boolean;
   addressList: Array<LocationModel> = [];
   submitting!: boolean;
+  selectButtonActivated!: boolean;
 
   // Form control
   cityCtrl = new FormControl('', Validators.required);
@@ -44,12 +45,8 @@ export class FilterComponent implements OnInit {
     private formBuilder: FormBuilder,
     private locationService: LocationService,
     private fieldService: FieldService,
-    public dialogRef: MatDialogRef<FilterComponent>,
-    @Inject(MAT_DIALOG_DATA) public data: any
+    private bottomSheetRef: MatBottomSheetRef<FilterComponent>
   ) {}
-
-  ngOnInit(): void {
-  }
 
   handleSubmit(): void {
     console.log(this.formValues);
@@ -61,11 +58,14 @@ export class FilterComponent implements OnInit {
           if (features.length > 1) {
             this.manyResults = true;
             this.addressList = features;
+            this.selectButtonActivated = true;
           }
           if (features.length < 1) {
             this.noResult = true;
           }
-          console.log(features);
+          if (features.length === 1) {
+            // Todo call api with coordinates
+          }
         },
         error: () => this.noResult = true,
         complete: () => {
@@ -75,8 +75,14 @@ export class FilterComponent implements OnInit {
       });
   }
 
-  // Close Dialog
-  onNoClick(): void {
-    this.dialogRef.close();
+  // Close bottomSheet
+  handleCloseBottomSheet(event: MouseEvent): void {
+    this.bottomSheetRef.dismiss();
+    event.preventDefault();
+  }
+
+  test({value}: any): void {
+    console.log(value);
+    // Todo call api with coordinates
   }
 }

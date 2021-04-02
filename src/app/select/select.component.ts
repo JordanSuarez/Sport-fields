@@ -1,5 +1,5 @@
-import {Component, Input, OnInit} from '@angular/core';
-import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
+import { FormControl, Validators } from '@angular/forms';
 
 import { LocationModel } from 'src/app/models/location.model';
 
@@ -8,28 +8,15 @@ import { LocationModel } from 'src/app/models/location.model';
   templateUrl: './select.component.html',
   styleUrls: ['./select.component.scss']
 })
-export class SelectComponent implements OnInit {
+export class SelectComponent {
+  @Input() addressList!: Array<LocationModel>;
+  @Output() selectedAddress = new EventEmitter<any>();
+
+  selectCtrl = new FormControl('valid', Validators.required);
 
   constructor() { }
 
-  @Input() addressList!: Array<LocationModel>;
-
-  selected = new FormControl('valid', [
-    Validators.required,
-    Validators.pattern('valid'),
-  ]);
-
-  selectFormControl = new FormControl('valid', [
-    Validators.required,
-    Validators.pattern('valid'),
-  ]);
-
-  nativeSelectFormControl = new FormControl('valid', [
-    Validators.required,
-    Validators.pattern('valid'),
-  ]);
-
-  ngOnInit(): void {
+  handleSubmit(): void {
+    this.selectedAddress.emit(this.selectCtrl);
   }
-
 }

@@ -1,39 +1,40 @@
-<div>
-  <h1>Entrez une adresse</h1>
+<div class="filter">
+  <h1 class="filter__title">Entrer une adresse</h1>
   <div id="registration-error" class="alert alert-danger" *ngIf="noResult">
     <button type="button" class="close" aria-label="Close" (click)="noResult = false">
       <span aria-hidden="true">&#215;</span>
     </button>
     Oops! Aucun résultat trouvé
   </div>
-  <form (ngSubmit)="handleSubmit()" [formGroup]="formValues" class="form">
-      <mat-form-field class="form__input">
-        <mat-label>Numéro de la voie</mat-label>
-        <input matInput placeholder="Ex. 10" type="number" [formControl]="streetNumberCtrl" (click)="noResult= false">
-        <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('required')">Le champ est requis</mat-error>
-        <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('min')">
-          Le numéro de la voie doit être supérieur à 0
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form__input">
-        <mat-label>Nom de la voie</mat-label>
-        <input matInput placeholder="Ex. impasse partout" [formControl]="streetNameCtrl" (click)="noResult= false">
-        <mat-error *ngIf="streetNameCtrl.dirty && streetNameCtrl.hasError('required')">Le champ est requis</mat-error>
-      </mat-form-field>
-      <mat-form-field class="form__input">
-        <mat-label>Code postal</mat-label>
-        <input matInput placeholder="Ex. 75000" type="number" [formControl]="postCodeCtrl" (click)="noResult= false">
-        <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('required')">Le champ est requis</mat-error>
-        <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('pattern')">
-          Le code postale doit être composé de 5 chiffres
-        </mat-error>
-      </mat-form-field>
-      <mat-form-field class="form__input">
-        <mat-label>Ville</mat-label>
-        <input matInput placeholder="Ex. Paris" [formControl]="cityCtrl" (click)="noResult= false">
-        <mat-error *ngIf="cityCtrl.dirty && cityCtrl.hasError('required')">Le champ est requis</mat-error>
-      </mat-form-field>
-    <button mat-raised-button type="submit" [disabled]="formValues.invalid || submitting" color="primary" class="form__button">Let's Go!</button>
+  <form (ngSubmit)="handleSubmit()" [formGroup]="formValues" class="filter__form" *ngIf="!selectButtonActivated">
+    <mat-form-field class="filter__form__input" appearance="fill">
+      <mat-label>Numéro de la voie</mat-label>
+      <input matInput placeholder="Ex. 10" type="number" [formControl]="streetNumberCtrl" (click)="noResult= false">
+      <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('required')">Le champ est requis</mat-error>
+      <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('min')">
+        Le numéro de la voie doit être supérieur à 0
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="filter__form__input" appearance="fill">
+      <mat-label>Nom de la voie</mat-label>
+      <input matInput placeholder="Ex. impasse partout" [formControl]="streetNameCtrl" (click)="noResult= false">
+      <mat-error *ngIf="streetNameCtrl.dirty && streetNameCtrl.hasError('required')">Le champ est requis</mat-error>
+    </mat-form-field>
+    <mat-form-field class="filter__form__input" appearance="fill">
+      <mat-label>Code postal</mat-label>
+      <input matInput placeholder="Ex. 75000" type="number" [formControl]="postCodeCtrl" (click)="noResult= false">
+      <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('required')">Le champ est requis</mat-error>
+      <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('pattern')">
+        Le code postale doit être composé de 5 chiffres
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="filter__form__input" appearance="fill">
+      <mat-label>Ville</mat-label>
+      <input matInput placeholder="Ex. Paris" [formControl]="cityCtrl" (click)="noResult= false">
+      <mat-error *ngIf="cityCtrl.dirty && cityCtrl.hasError('required')">Le champ est requis</mat-error>
+    </mat-form-field>
+    <button mat-raised-button type="submit" [disabled]="formValues.invalid || submitting" color="primary" class="filter__form__button">Let's Go!</button>
   </form>
-  <app-select [addressList]="addressList"></app-select>
+    <app-select *ngIf="selectButtonActivated" [addressList]="addressList" class="filter__select" (selectedAddress)="test($event)"></app-select>
+    <button *ngIf="selectButtonActivated" mat-stroked-button type="button" color="primary" class="filter__form__button" (click)="selectButtonActivated = false">Retour</button>
 </div>

@@ -11,7 +11,7 @@ import { MaterialModule } from 'src/app/modules/material-modules';
 
 import { BasketBallFieldsComponent } from './basket-ball-fields/basket-ball-fields.component';
 import { AthleticsTracksComponent } from './athletics-tracks/athletics-tracks.component';
-import { DialogComponent } from './dialog/dialog.component';
+import { BottomSheetComponent } from './bottom-sheet/bottom-sheet.component';
 import { SoccerFieldsComponent } from './soccer-fields/soccer-fields.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
@@ -45,7 +45,7 @@ registerLocaleData(localeFr, 'fr');
     AthleticsTracksComponent,
     FilterComponent,
     SelectComponent,
-    DialogComponent,
+    BottomSheetComponent,
   ],
   imports: [
     MaterialModule,

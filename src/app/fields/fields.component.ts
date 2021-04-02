@@ -29,7 +29,6 @@ export class FieldsComponent implements OnInit {
   // Localstorage Inputs
   @Input() localStorageKey!: string;
 
-
   constructor(
     private locationService: LocationService,
     private fieldService: FieldService,

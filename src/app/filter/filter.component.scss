@@ -1,8 +1,18 @@
-.form {
-  &__input, &__button{
-    width: 100%;
+.filter {
+  display: flex;
+  flex-direction: column;
+  &__title {
+    margin-top: 1rem;
   }
-  &__input {
+  &__form {
+    display: flex;
+    flex-direction: column;
+    &__input, &__button{
+      margin-top: 1rem;
+    }
+  }
+  &__select {
     margin-top: 1rem;
   }
 }
+
