@@ -1,5 +1,8 @@
 <div class="fields">
-  <h1 class="fields__title">Liste des équipements</h1>
+  <section class="fields__header">
+    <h1 class="fields__header__title">Liste des équipements</h1>
+    <app-dialog></app-dialog>
+  </section>
   <app-spinner [isLoading]="isLoading"></app-spinner>
   <div *ngIf="!isLoading" class="fields__container">
     <div *ngFor="let field of fields" class="fields__card">

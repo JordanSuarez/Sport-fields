@@ -7,21 +7,11 @@ import { LayoutModule } from '@angular/cdk/layout';
 import localeFr from '@angular/common/locales/fr';
 import { AgmCoreModule } from '@agm/core';
 
-import { MatProgressSpinnerModule } from '@angular/material/progress-spinner';
-import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
-import { MatPaginatorModule } from '@angular/material/paginator';
-import { MatGridListModule } from '@angular/material/grid-list';
-import { MatSidenavModule } from '@angular/material/sidenav';
-import { MatToolbarModule } from '@angular/material/toolbar';
-import { MatSelectModule } from '@angular/material/select';
-import { MatButtonModule } from '@angular/material/button';
-import { MatListModule } from '@angular/material/list';
-import { MatCardModule } from '@angular/material/card';
-import { MatMenuModule } from '@angular/material/menu';
-import { MatIconModule } from '@angular/material/icon';
+import { MaterialModule } from 'src/app/modules/material-modules';
 
 import { BasketBallFieldsComponent } from './basket-ball-fields/basket-ball-fields.component';
 import { AthleticsTracksComponent } from './athletics-tracks/athletics-tracks.component';
+import { DialogComponent } from './dialog/dialog.component';
 import { SoccerFieldsComponent } from './soccer-fields/soccer-fields.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
@@ -55,24 +45,14 @@ registerLocaleData(localeFr, 'fr');
     AthleticsTracksComponent,
     FilterComponent,
     SelectComponent,
+    DialogComponent,
   ],
   imports: [
+    MaterialModule,
     BrowserModule,
     AppRoutingModule,
-    BrowserAnimationsModule,
-    MatToolbarModule,
     LayoutModule,
-    MatButtonModule,
-    MatSidenavModule,
-    MatIconModule,
-    MatListModule,
-    MatGridListModule,
-    MatCardModule,
-    MatMenuModule,
-    MatProgressSpinnerModule,
-    MatPaginatorModule,
     HttpClientModule,
-    MatSelectModule,
     AgmCoreModule.forRoot({
       apiKey: environment.googleMapsKey
     }),
@@ -80,7 +60,7 @@ registerLocaleData(localeFr, 'fr');
     FormsModule
   ],
   providers: [
-    {provide: LOCALE_ID, useValue: 'fr' }
+    { provide: LOCALE_ID, useValue: 'fr' }
   ],
   bootstrap: [AppComponent]
 })

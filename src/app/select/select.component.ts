@@ -1,15 +1,7 @@
 import {Component, Input, OnInit} from '@angular/core';
 import {FormControl, FormGroupDirective, NgForm, Validators} from '@angular/forms';
-import {ErrorStateMatcher} from '@angular/material/core';
 
 import { LocationModel } from 'src/app/models/location.model';
-
-export class MyErrorStateMatcher implements ErrorStateMatcher {
-  isErrorState(control: FormControl | null, form: FormGroupDirective | NgForm | null): boolean {
-    const isSubmitted = form && form.submitted;
-    return !!(control && control.invalid && (control.dirty || control.touched || isSubmitted));
-  }
-}
 
 @Component({
   selector: 'app-select',
@@ -18,12 +10,9 @@ export class MyErrorStateMatcher implements ErrorStateMatcher {
 })
 export class SelectComponent implements OnInit {
 
-  @Input() addressList!: Array<LocationModel>;
-
   constructor() { }
 
-  ngOnInit(): void {
-  }
+  @Input() addressList!: Array<LocationModel>;
 
   selected = new FormControl('valid', [
     Validators.required,
@@ -40,6 +29,7 @@ export class SelectComponent implements OnInit {
     Validators.pattern('valid'),
   ]);
 
-  matcher = new MyErrorStateMatcher();
+  ngOnInit(): void {
+  }
 
 }
