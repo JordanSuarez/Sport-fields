@@ -1,10 +1,10 @@
 import { Component } from '@angular/core';
-import { FormBuilder, FormControl, Validators } from '@angular/forms';
+import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 import { LocationModel } from 'src/app/models/location.model';
-import { LocationService } from 'src/app/location.service';
-import { FieldService } from 'src/app/field.service';
+import { LocationService } from 'src/app/services/location/location.service';
+import { FieldService } from 'src/app/services/field/field.service';
 
 @Component({
   selector: 'app-filter',
@@ -15,11 +15,14 @@ export class FilterComponent {
   isOpen!: boolean;
   noResult!: boolean;
   manyResults!: boolean;
-  addressList: Array<LocationModel> = [];
   submitting!: boolean;
   selectButtonActivated!: boolean;
 
-  // Form control
+  // Location Inputs
+  location!: LocationModel;
+  addressList: Array<LocationModel> = [];
+
+  // Form control Inputs
   cityCtrl = new FormControl('', Validators.required);
   streetNameCtrl = new FormControl('', Validators.required);
   streetNumberCtrl = new FormControl('', [
@@ -33,7 +36,7 @@ export class FilterComponent {
     ]
   );
 
-  // Form values
+  // Form values Inputs
   formValues = this.formBuilder.group({
     streetNumber: this.streetNumberCtrl,
     streetName: this.streetNameCtrl,
@@ -49,10 +52,10 @@ export class FilterComponent {
   ) {}
 
   handleSubmit(): void {
-    console.log(this.formValues);
     this.submitting = true;
+    const stringAddress = `${this.formValues.value.streetNumber} ${this.formValues.value.streetName} ${this.formValues.value.postCode} ${this.formValues.value.city}`;
     this.locationService
-      .getCoordinates(this.formValues.value)
+      .getCoordinates(stringAddress)
       .subscribe({
         next: ({features}) => {
           if (features.length > 1) {
@@ -64,7 +67,9 @@ export class FilterComponent {
             this.noResult = true;
           }
           if (features.length === 1) {
-            // Todo call api with coordinates
+            this.location = features[0];
+            this.handleFieldLocationProvider(this.location);
+            this.handleCloseBottomSheet();
           }
         },
         error: () => this.noResult = true,
@@ -75,14 +80,31 @@ export class FilterComponent {
       });
   }
 
-  // Close bottomSheet
-  handleCloseBottomSheet(event: MouseEvent): void {
-    this.bottomSheetRef.dismiss();
-    event.preventDefault();
+  // Value from select component if user input as more than one response
+  handleSubmitSelectedAddress({value}: FormGroup): void {
+    this.submitting = true;
+    this.locationService
+      .getCoordinates(value)
+      .subscribe({
+        next: ({features}) => {
+          this.location = features[0];
+          this.handleFieldLocationProvider(this.location);
+          this.handleCloseBottomSheet();
+        },
+        error: () => this.noResult = true,
+        complete: () => {
+          this.submitting = false;
+        },
+      });
   }
 
-  test({value}: any): void {
-    console.log(value);
-    // Todo call api with coordinates
+  // Close bottomSheet
+  handleCloseBottomSheet(): void {
+    this.bottomSheetRef.dismiss();
+  }
+
+  // Share data between component
+  handleFieldLocationProvider(fieldLocation: LocationModel): void {
+    this.fieldService.setFilteredField(fieldLocation);
   }
 }

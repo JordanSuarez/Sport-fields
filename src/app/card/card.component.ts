@@ -1,7 +1,7 @@
 import { Component, Input, OnInit } from '@angular/core';
 
 import { FieldRecordsModel } from 'src/app/models/field.model';
-import { FieldService } from 'src/app/field.service';
+import { FieldService } from 'src/app/services/field/field.service';
 
 @Component({
   selector: 'app-card',
@@ -16,6 +16,6 @@ export class CardComponent implements OnInit {
   ngOnInit(): void {}
 
   handleFieldProvider(field: FieldRecordsModel): void {
-    this.fieldService.getSelectedField(field);
+    this.fieldService.setSelectedField(field);
   }
 }

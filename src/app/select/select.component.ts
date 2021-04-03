@@ -10,13 +10,13 @@ import { LocationModel } from 'src/app/models/location.model';
 })
 export class SelectComponent {
   @Input() addressList!: Array<LocationModel>;
-  @Output() selectedAddress = new EventEmitter<any>();
+  @Output() handleSubmitSelectedAddress = new EventEmitter<any>();
 
   selectCtrl = new FormControl('valid', Validators.required);
 
   constructor() { }
 
   handleSubmit(): void {
-    this.selectedAddress.emit(this.selectCtrl);
+    this.handleSubmitSelectedAddress.emit(this.selectCtrl);
   }
 }

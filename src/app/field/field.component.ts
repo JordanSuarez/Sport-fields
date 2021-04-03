@@ -4,11 +4,11 @@ import { Subscription } from 'rxjs';
 import { formatDate } from '@angular/common';
 import { LOCALE_ID } from '@angular/core';
 
-import { FieldService } from 'src/app/field.service';
+import { FieldService } from 'src/app/services/field/field.service';
 import { FieldRecordsModel } from 'src/app/models/field.model';
-import { LocationService } from 'src/app/location.service';
+import { LocationService } from 'src/app/services/location/location.service';
 import { LocationPropertiesModel } from 'src/app/models/location.model';
-import { LocalStorageService } from 'src/app/local-storage.service';
+import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-field',
@@ -65,7 +65,7 @@ export class FieldComponent implements OnInit, OnDestroy {
   }
 
   handleClick(city: string, fieldType: string): void {
-    this.fieldService.getFieldsByType(11, 0, city, fieldType).subscribe(({records}) => {
+    this.fieldService.fetchFieldsByType(11, 0, city, fieldType).subscribe(({records}) => {
       this.similarFields = records.filter((field) => {
         return field.recordid !== this.field.recordid;
       });
@@ -74,7 +74,7 @@ export class FieldComponent implements OnInit, OnDestroy {
 
   fetchFieldById(): void {
     const fieldId = this.route.snapshot.paramMap.get('fieldId');
-    this.fieldService.getFieldById(fieldId).subscribe(field => {
+    this.fieldService.fetchFieldById(fieldId).subscribe(field => {
       this.handleDisplayField(field.records[0]);
     });
   }

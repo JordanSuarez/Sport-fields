@@ -35,6 +35,6 @@
     </mat-form-field>
     <button mat-raised-button type="submit" [disabled]="formValues.invalid || submitting" color="primary" class="filter__form__button">Let's Go!</button>
   </form>
-    <app-select *ngIf="selectButtonActivated" [addressList]="addressList" class="filter__select" (selectedAddress)="test($event)"></app-select>
+    <app-select *ngIf="selectButtonActivated" [addressList]="addressList" class="filter__select" (handleSubmitSelectedAddress)="handleSubmitSelectedAddress($event)"></app-select>
     <button *ngIf="selectButtonActivated" mat-stroked-button type="button" color="primary" class="filter__form__button" (click)="selectButtonActivated = false">Retour</button>
 </div>

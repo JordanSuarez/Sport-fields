@@ -13,10 +13,3 @@ export interface LocationPropertiesModel {
   label: string;
   id: string;
 }
-
-export interface AddressModel {
-  streetNumber: number;
-  streetName: string;
-  postCode: number;
-  city: string;
-}
