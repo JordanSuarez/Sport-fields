@@ -18,18 +18,18 @@ const routes: Routes = [
       { path: ':fieldId', component: FieldComponent },
     ]
   },
-  {
-    path: 'basketball-fields',
-    component: BasketBallFieldsComponent
-  },
-  {
-    path: 'soccer-fields',
-    component: SoccerFieldsComponent
-  },
-  {
-    path: 'athletics-tracks',
-    component: AthleticsTracksComponent
-  },
+  // {
+  //   path: 'basketball-fields',
+  //   component: BasketBallFieldsComponent
+  // },
+  // {
+  //   path: 'soccer-fields',
+  //   component: SoccerFieldsComponent
+  // },
+  // {
+  //   path: 'athletics-tracks',
+  //   component: AthleticsTracksComponent
+  // },
   {
     path: '**',
     redirectTo: '/',

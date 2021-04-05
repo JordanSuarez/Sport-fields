@@ -33,6 +33,17 @@
       <input matInput placeholder="Ex. Paris" [formControl]="cityCtrl" (click)="noResult= false">
       <mat-error *ngIf="cityCtrl.dirty && cityCtrl.hasError('required')">Le champ est requis</mat-error>
     </mat-form-field>
+<!-- TODO dynamic range-->
+    <mat-form-field appearance="fill">
+      <mat-label>Choisir un rayon de recherche</mat-label>
+      <mat-select [formControl]="distanceCtrl">
+          <mat-option [value]="500">500m</mat-option>
+          <mat-option [value]="1000">1km</mat-option>
+          <mat-option [value]="5000">5km</mat-option>
+          <mat-option [value]="10000">10km</mat-option>
+      </mat-select>
+      <mat-error *ngIf="distanceCtrl.hasError('required')">Le champ est requis</mat-error>
+    </mat-form-field>
     <button mat-raised-button type="submit" [disabled]="formValues.invalid || submitting" color="primary" class="filter__form__button">Let's Go!</button>
   </form>
     <app-select *ngIf="selectButtonActivated" [addressList]="addressList" class="filter__select" (handleSubmitSelectedAddress)="handleSubmitSelectedAddress($event)"></app-select>

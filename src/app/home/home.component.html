@@ -1,4 +1,13 @@
 <button *ngIf="filterActivated" mat-stroked-button type="button" color="primary" (click)="handleChangeStateComponent()">
-  {{selectedAddress}}
+  {{address}}
 </button>
-<app-sport-fields [getFields]="filterActivated ? getFilteredFields : getFields" [localStorageKey]="localStorageKey" [coordinates]="coordinates" [filterActivated]="filterActivated"></app-sport-fields>
+<app-fields
+  [userFilterInput]="userFilterInput"
+  [filterActivated]="filterActivated"
+  [paginator]="filterActivated ? filterPaginator : paginator"
+  [isLoading]="isLoading"
+  [noResult]="noResult"
+  [selectedCity]="selectedCity"
+  [fields]="fields"
+  (paginatorEvent)="handleChangePage($event)"
+></app-fields>

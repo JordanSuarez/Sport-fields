@@ -3,24 +3,24 @@ import { HttpClient } from '@angular/common/http';
 import { Observable, BehaviorSubject } from 'rxjs';
 
 import { FieldsModel, FieldRecordsModel} from 'src/app/models/field.model';
-import { LocationCoordinatesModel, LocationModel } from 'src/app/models/location.model';
+import { FilterModel } from 'src/app/models/filter.model';
 import { environment } from 'src/environments/environment';
 
 @Injectable({
   providedIn: 'root'
 })
 export class FieldService {
-  constructor(private http: HttpClient) {}
-
   // Field
   fieldSubject!: FieldRecordsModel;
   private field = new BehaviorSubject(this.fieldSubject);
   currentField = this.field.asObservable();
 
   // Filtered field
-  fieldLocationSubject!: LocationModel;
+  fieldLocationSubject!: FilterModel;
   private fieldLocation = new BehaviorSubject(this.fieldLocationSubject);
   filteredField = this.fieldLocation.asObservable();
+
+  constructor(private http: HttpClient) {}
 
   // Fetch data from APIs
   fetchFields(rows: number, start: number, city: string): Observable<FieldsModel> {
@@ -39,20 +39,18 @@ export class FieldService {
     return this.http.get<FieldsModel>(`${environment.openDataSoft}&refine.recordid=${id}`);
   }
 
-  fetchFieldsByGeoFilter(rows: number, start: number, {coordinates}: LocationCoordinatesModel): Observable<FieldsModel> {
-    // TODO set distance from filter component
-    // Distance meter
-    const distance = 1000;
-    const longitude = coordinates[1];
-    const latitude = coordinates[0];
-    return this.http.get<FieldsModel>(`${environment.openDataSoft}&q=&rows=${rows}&start=${start}&geofilter.distance=${longitude}%2C+${latitude}%2C+${distance}`);
+  fetchFieldsByGeoFilter(rows: number, start: number, filteredField: FilterModel): Observable<FieldsModel> {
+    const longitude = filteredField.location.geometry.coordinates[1];
+    const latitude = filteredField.location.geometry.coordinates[0];
+    return this.http.get<FieldsModel>(`${environment.openDataSoft}&q=&rows=${rows}&start=${start}&geofilter.distance=${longitude}%2C+${latitude}%2C+${filteredField.distance}`);
   }
 
   // Share data between components
   setSelectedField(field: FieldRecordsModel): void {
     return this.field.next(field);
   }
-  setFilteredField(fieldLocation: LocationModel): void {
-    return this.fieldLocation.next(fieldLocation);
+
+  setFilteredField(filteredField: FilterModel): void {
+    return this.fieldLocation.next(filteredField);
   }
 }

@@ -3,6 +3,7 @@ import {FormBuilder, FormControl, FormGroup, Validators} from '@angular/forms';
 import { MatBottomSheetRef } from '@angular/material/bottom-sheet';
 
 import { LocationModel } from 'src/app/models/location.model';
+import { FilterModel } from 'src/app/models/filter.model';
 import { LocationService } from 'src/app/services/location/location.service';
 import { FieldService } from 'src/app/services/field/field.service';
 
@@ -12,6 +13,7 @@ import { FieldService } from 'src/app/services/field/field.service';
   styleUrls: ['./filter.component.scss']
 })
 export class FilterComponent {
+  // Filter Inputs
   isOpen!: boolean;
   noResult!: boolean;
   manyResults!: boolean;
@@ -35,6 +37,7 @@ export class FilterComponent {
       Validators.pattern('[0-9]{5}'),
     ]
   );
+  distanceCtrl = new FormControl('valid', Validators.required);
 
   // Form values Inputs
   formValues = this.formBuilder.group({
@@ -42,6 +45,7 @@ export class FilterComponent {
     streetName: this.streetNameCtrl,
     postCode: this.postCodeCtrl,
     city: this.cityCtrl,
+    distance: this.distanceCtrl,
   });
 
   constructor(
@@ -68,7 +72,7 @@ export class FilterComponent {
           }
           if (features.length === 1) {
             this.location = features[0];
-            this.handleFieldLocationProvider(this.location);
+            this.handleFieldLocationProvider({location: this.location, distance: this.formValues.value.distance, address: stringAddress});
             this.handleCloseBottomSheet();
           }
         },
@@ -88,7 +92,7 @@ export class FilterComponent {
       .subscribe({
         next: ({features}) => {
           this.location = features[0];
-          this.handleFieldLocationProvider(this.location);
+          this.handleFieldLocationProvider({location: this.location, distance: this.formValues.value.distance, address: value});
           this.handleCloseBottomSheet();
         },
         error: () => this.noResult = true,
@@ -104,7 +108,7 @@ export class FilterComponent {
   }
 
   // Share data between component
-  handleFieldLocationProvider(fieldLocation: LocationModel): void {
+  handleFieldLocationProvider(fieldLocation: FilterModel): void {
     this.fieldService.setFilteredField(fieldLocation);
   }
 }

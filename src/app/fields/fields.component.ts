@@ -1,114 +1,40 @@
-import { Component, Input, OnChanges } from '@angular/core';
+import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
 import { PageEvent } from '@angular/material/paginator';
-import { Observable } from 'rxjs';
 
-import { FieldRecordsModel, FieldsModel } from 'src/app/models/field.model';
-import { LocationCoordinatesModel } from 'src/app/models/location.model';
+import { FieldRecordsModel } from 'src/app/models/field.model';
 import { PaginatorModel } from 'src/app/models/paginator.model';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
-import { LocationService } from 'src/app/services/location/location.service';
-import { FieldService } from 'src/app/services/field/field.service';
+import { FilterModel } from 'src/app/models/filter.model';
 
 @Component({
-  selector: 'app-sport-fields',
+  selector: 'app-fields',
   templateUrl: './fields.component.html',
   styleUrls: ['./fields.component.scss']
 })
-export class FieldsComponent implements OnChanges {
+export class FieldsComponent implements OnInit {
+  // Filter Inputs
   @Input() filterActivated!: boolean;
-  @Input() coordinates!: LocationCoordinatesModel;
+  @Input() userFilterInput!: FilterModel;
 
   // Paginator Input
-  paginator: PaginatorModel = {
-    length: 0,
-    pageSize: 10,
-    pageIndex: 0,
-  };
+  @Input() paginator!: PaginatorModel;
 
   // Fields Inputs
-  @Input() getFields!: (...arg: any) => Observable<FieldsModel>;
-  fields: Array<FieldRecordsModel> = [];
-  isLoading = true;
-
-  // Localstorage Inputs
-  @Input() localStorageKey!: string;
+  @Input() fields: Array<FieldRecordsModel> = [];
+  @Input() isLoading!: boolean;
+  // TODO display no result component if true
+  @Input() noResult!: boolean;
 
   // Select city Inputs
-  selectedCity = 'Chalon-sur-Saône';
+  @Input() selectedCity!: string;
 
-  constructor(
-    private locationService: LocationService,
-    private fieldService: FieldService,
-    private localStorageService: LocalStorageService
-  ) {}
+  // Paginator Output
+  @Output() paginatorEvent = new EventEmitter<any>();
 
-  ngOnChanges(): void {
-    this.getFieldsDataFromLocalStorage();
+  constructor() {}
+
+  ngOnInit(): void {}
+
+  pageEvent(event: PageEvent): void {
+    this.paginatorEvent.emit(event);
   }
-
-  getFieldsDataFromLocalStorage(): void {
-    if (this.localStorageService.getItem(this.localStorageKey) !== null) {
-      this.fields = this.localStorageService.getItem(this.localStorageKey).fields;
-      this.paginator = this.localStorageService.getItem(this.localStorageKey).paginator;
-      this.isLoading = false;
-    } else {
-      this.fetchFieldsList();
-    }
-  }
-
-  handleChangePage(event: PageEvent): void {
-    this.paginator.pageIndex = event.pageIndex;
-    this.resetFieldsContentBeforeFetchingData();
-    this.fetchFieldsList();
-  }
-
-  fetchFieldsList(): void {
-    this.getFields(
-      this.paginator.pageSize,
-      this.paginator.pageIndex * 10,
-      this.filterActivated ? this.coordinates : this.selectedCity
-    ).subscribe({
-      next: (fields) => {
-        this.paginator.length = fields.nhits;
-        this.fetchFieldsLocation(fields);
-      },
-      error: () => {},
-      complete: () => {},
-    });
-  }
-
-  fetchFieldsLocation(fields: FieldsModel): void {
-    fields.records.map((field: FieldRecordsModel) => {
-      this.locationService
-          .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
-          .subscribe({
-            next: ({features}) => {
-              this.fields = [...this.fields, {...field, location: features[0] ? features[0].properties : {}}];
-              this.setFieldsDataToLocalStorage();
-            },
-            error: () => console.log('pass'),
-            complete: () => this.isLoading = false,
-          });
-      }
-    );
-  }
-
-  setFieldsDataToLocalStorage(): void {
-    this.localStorageService.setItem(
-      this.localStorageKey,
-      {
-        fields: this.fields,
-        paginator: this.paginator
-      }
-    );
-  }
-
-  resetFieldsContentBeforeFetchingData(): void {
-    this.isLoading = true;
-    this.fields = [];
-  }
-
-  // handleChangeCity(): void {
-  //   this.fetchFieldsList();
-  // }
 }

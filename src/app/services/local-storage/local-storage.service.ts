@@ -21,6 +21,7 @@ export class LocalStorageService {
   getItem(key: string): any {
     return JSON.parse(localStorage.getItem(key) as any);
   }
+
   removeItem(key: string): void {
     localStorage.removeItem(key);
   }

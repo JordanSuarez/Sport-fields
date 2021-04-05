@@ -44,11 +44,9 @@ export class FieldComponent implements OnInit, OnDestroy {
     private fieldService: FieldService,
     private route: ActivatedRoute,
     private locationService: LocationService,
-    private localStorageService: LocalStorageService,
     @Inject( LOCALE_ID ) localID: string
   ) {
     this.localID = localID;
-    this.localStorageService.clearItems();
   }
 
   ngOnInit(): void {
