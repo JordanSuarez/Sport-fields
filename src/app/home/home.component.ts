@@ -68,21 +68,18 @@ export class HomeComponent implements OnInit, OnDestroy {
         }
         return this.getFieldsDataFromLocalStorage();
       },
-      error: () => {},
-      complete: () => {},
     });
   }
 
   handleChangeStateComponent(): void {
-    this.address = ''
     this.resetFieldsContentBeforeFetchingData();
+    this.localStorageService.removeItem(HOME_FIELDS);
+    this.filterActivated = false;
     this.paginator = {
       length: 0,
       pageSize: 10,
       pageIndex: 0,
     };
-    this.filterActivated = false;
-    this.localStorageService.removeItem(HOME_FIELDS);
     this.fetchFieldsList();
   }
 
@@ -96,67 +93,37 @@ export class HomeComponent implements OnInit, OnDestroy {
       this.isLoading = false;
       return;
     }
-    this.filterActivated ? this.fetchFieldsByGeoFilter() : this.fetchFieldsList();
-  }
-
-  handleChangePage(event: PageEvent): void {
-    if (this.filterActivated) {
-      this.paginator.pageIndex = event.pageIndex;
-      return this.fetchFieldsByGeoFilter();
-    }
-    this.paginator.pageIndex = event.pageIndex;
-    return this.fetchFieldsList();
+    this.fetchFieldsList();
   }
 
   fetchFieldsList(): void {
     this.resetFieldsContentBeforeFetchingData();
-    this.fieldService.fetchFields(this.paginator.pageSize, this.paginator.pageIndex * 10, this.selectedCity)
+    (this.filterActivated ?
+      this.fieldService.fetchFieldsByGeoFilter(this.paginator, this.userFilterInput)
+      :
+      this.fieldService.fetchFields(this.paginator, this.selectedCity))
         .subscribe({
-          next: (fields) => {
-            console.log(fields);
+          next: (fields: FieldsModel) => {
             if (fields.nhits === 0) {
               this.isLoading = false;
               return this.noResult = true;
             }
             this.paginator.length = fields.nhits;
-            return  this.fetchFieldsLocation(fields);
+            return fields.records.map(field => this.fetchFieldsLocation(field));
           },
-          error: () => {},
-          complete: () => {},
         });
   }
 
-  fetchFieldsByGeoFilter(): void {
-    this.resetFieldsContentBeforeFetchingData();
-    this.fieldService.fetchFieldsByGeoFilter(this.paginator.pageSize, this.paginator.pageIndex * 10, this.userFilterInput)
-        .subscribe({
-          next: (fields) => {
-            if (fields.nhits === 0) {
-              this.isLoading = false;
-              return this.noResult = true;
-            }
-            this.paginator.length = fields.nhits;
-            return this.fetchFieldsLocation(fields);
-          },
-          error: () => {},
-          complete: () => {},
-        });
-  }
-
-   fetchFieldsLocation(fields: FieldsModel): void {
-      fields.records.map((field: FieldRecordsModel) => {
-        this.locationService
-          .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
-          .subscribe({
-            next: ({features}) => {
-              this.fields = [...this.fields, {...field, location: features[0] ? features[0].properties : {}}];
-              this.setFieldsDataToLocalStorage();
-            },
-            error: () => {},
-            complete: () => this.isLoading = false,
-          });
-      }
-    );
+  fetchFieldsLocation(field: FieldRecordsModel): void {
+    this.locationService
+      .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
+      .subscribe({
+        next: ({features}) => {
+          this.fields = [...this.fields, {...field, location: features[0] ? features[0].properties : {}}];
+          this.setFieldsDataToLocalStorage();
+          this.isLoading = false;
+        },
+      });
   }
 
   setFieldsDataToLocalStorage(): void {
@@ -177,9 +144,14 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.fields = [];
   }
 
-  // handleChangeCity(): void {
-  //   this.fetchFieldsList();
-  // }
+  handleChangePage(event: PageEvent): void {
+    this.paginator.pageIndex = event.pageIndex;
+    return this.fetchFieldsList();
+  }
+
+  handleChangeCity(): void {
+    this.fetchFieldsList();
+  }
 
   ngOnDestroy(): void {
     if (this.filterSubscription) {
