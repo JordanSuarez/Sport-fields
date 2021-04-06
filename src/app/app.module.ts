@@ -9,10 +9,7 @@ import { AgmCoreModule } from '@agm/core';
 
 import { MaterialModule } from 'src/app/modules/material-modules';
 
-import { BasketBallFieldsComponent } from './basket-ball-fields/basket-ball-fields.component';
-import { AthleticsTracksComponent } from './athletics-tracks/athletics-tracks.component';
 import { BottomSheetComponent } from './bottom-sheet/bottom-sheet.component';
-import { SoccerFieldsComponent } from './soccer-fields/soccer-fields.component';
 import { PaginationComponent } from './pagination/pagination.component';
 import { GoogleMapComponent } from './google-map/google-map.component';
 import { TopMenuComponent } from './top-menu/top-menu.component';
@@ -40,9 +37,6 @@ registerLocaleData(localeFr, 'fr');
     SpinnerComponent,
     CardComponent,
     PaginationComponent,
-    BasketBallFieldsComponent,
-    SoccerFieldsComponent,
-    AthleticsTracksComponent,
     FilterComponent,
     SelectComponent,
     BottomSheetComponent,

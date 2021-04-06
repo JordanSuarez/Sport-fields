@@ -1,4 +1,4 @@
-import {Component, OnInit, OnDestroy, Inject} from '@angular/core';
+import { Component, OnInit, OnDestroy, Inject } from '@angular/core';
 import { ActivatedRoute } from '@angular/router';
 import { Subscription } from 'rxjs';
 import { formatDate } from '@angular/common';
@@ -8,7 +8,6 @@ import { FieldService } from 'src/app/services/field/field.service';
 import { FieldRecordsModel } from 'src/app/models/field.model';
 import { LocationService } from 'src/app/services/location/location.service';
 import { LocationPropertiesModel } from 'src/app/models/location.model';
-import { LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
 
 @Component({
   selector: 'app-field',

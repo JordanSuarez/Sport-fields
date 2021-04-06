@@ -1,9 +1,9 @@
 import { Component, OnDestroy, OnInit } from '@angular/core';
-import { Subscription } from 'rxjs';
 import { PageEvent } from '@angular/material/paginator';
+import { Subscription } from 'rxjs';
 
 import { FieldService } from 'src/app/services/field/field.service';
-import { HOME_FIELDS, LocalStorageService } from 'src/app/services/local-storage/local-storage.service';
+import { HOME_FIELDS, SessionStorageService } from 'src/app/services/session-storage/session-storage.service';
 import { FilterModel } from 'src/app/models/filter.model';
 import { FieldRecordsModel, FieldsModel } from 'src/app/models/field.model';
 import { PaginatorModel } from 'src/app/models/paginator.model';
@@ -15,7 +15,8 @@ import { LocationService } from 'src/app/services/location/location.service';
   styleUrls: ['./home.component.scss']
 })
 export class HomeComponent implements OnInit, OnDestroy {
-  localStorageKey = HOME_FIELDS ;
+  sessionStorageKey = HOME_FIELDS ;
+  selectedCity = 'Chalon-sur-Saône';
 
   // Filter Input
   filterActivated = false;
@@ -30,9 +31,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     pageIndex: 0,
   };
 
-  // Select city Inputs
-  selectedCity = 'Chalon-sur-Saône';
-
   // Fields Inputs
   fields: Array<FieldRecordsModel> = [];
   isLoading = true;
@@ -41,7 +39,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   constructor(
     private locationService: LocationService,
     private fieldService: FieldService,
-    private localStorageService: LocalStorageService
+    private sessionStorageService: SessionStorageService
   ) { }
 
   ngOnInit(): void {
@@ -54,7 +52,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       next: (fieldLocation) => {
         if (fieldLocation) {
           if (fieldLocation !== this.userFilterInput) {
-            this.localStorageService.removeItem(HOME_FIELDS);
+            this.sessionStorageService.removeItem(HOME_FIELDS);
           }
           this.paginator = {
             length: 0,
@@ -73,7 +71,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   handleChangeStateComponent(): void {
     this.resetFieldsContentBeforeFetchingData();
-    this.localStorageService.removeItem(HOME_FIELDS);
+    this.sessionStorageService.removeItem(HOME_FIELDS);
     this.filterActivated = false;
     this.paginator = {
       length: 0,
@@ -84,12 +82,12 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   getFieldsDataFromLocalStorage(): void {
-    if (this.localStorageService.getItem(HOME_FIELDS) !== null) {
-      this.fields = this.localStorageService.getItem(HOME_FIELDS).fields;
-      this.paginator = this.localStorageService.getItem(HOME_FIELDS).paginator;
-      this.address = this.localStorageService.getItem(HOME_FIELDS).address;
-      this.filterActivated = this.localStorageService.getItem(HOME_FIELDS).filterActivated;
-      this.userFilterInput = this.localStorageService.getItem(HOME_FIELDS).userFilterInput;
+    if (this.sessionStorageService.getItem(HOME_FIELDS) !== null) {
+      this.fields = this.sessionStorageService.getItem(HOME_FIELDS).fields;
+      this.paginator = this.sessionStorageService.getItem(HOME_FIELDS).paginator;
+      this.address = this.sessionStorageService.getItem(HOME_FIELDS).address;
+      this.filterActivated = this.sessionStorageService.getItem(HOME_FIELDS).filterActivated;
+      this.userFilterInput = this.sessionStorageService.getItem(HOME_FIELDS).userFilterInput;
       this.isLoading = false;
       return;
     }
@@ -127,8 +125,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setFieldsDataToLocalStorage(): void {
-    this.localStorageService.setItem(
-      this.localStorageKey,
+    this.sessionStorageService.setItem(
+      this.sessionStorageKey,
       {
         fields: this.fields,
         paginator: this.paginator,
