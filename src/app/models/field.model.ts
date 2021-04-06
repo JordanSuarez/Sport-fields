@@ -23,3 +23,13 @@ export interface FieldDataModel {
   equacceshandimaire: string;
   equdatecreation: string;
 }
+
+export interface CityModel {
+  name: string;
+}
+
+export interface FieldTypeModel {
+  name: string;
+}
+
+

@@ -3,11 +3,13 @@ import { PageEvent } from '@angular/material/paginator';
 import { Subscription } from 'rxjs';
 
 import { FieldService } from 'src/app/services/field/field.service';
-import { HOME_FIELDS, SessionStorageService } from 'src/app/services/session-storage/session-storage.service';
+import { SessionStorageService } from 'src/app/services/session-storage/session-storage.service';
+import { HOME_FIELDS } from 'src/app/constants/session-storage';
 import { FilterModel } from 'src/app/models/filter.model';
 import { FieldRecordsModel, FieldsModel } from 'src/app/models/field.model';
 import { PaginatorModel } from 'src/app/models/paginator.model';
 import { LocationService } from 'src/app/services/location/location.service';
+import { cities } from 'src/app/constants/cities';
 
 @Component({
   selector: 'app-home',
@@ -16,12 +18,10 @@ import { LocationService } from 'src/app/services/location/location.service';
 })
 export class HomeComponent implements OnInit, OnDestroy {
   sessionStorageKey = HOME_FIELDS ;
-  selectedCity = 'Chalon-sur-Saône';
 
   // Filter Input
   filterActivated = false;
   userFilterInput!: FilterModel;
-  address!: string;
   filterSubscription!: Subscription;
 
   // Paginator Input
@@ -32,9 +32,11 @@ export class HomeComponent implements OnInit, OnDestroy {
   };
 
   // Fields Inputs
+  selectedFieldType = '';
   fields: Array<FieldRecordsModel> = [];
-  isLoading = true;
+  selectedCity = cities[0].name;
   noResult!: boolean;
+  isLoading = true;
 
   constructor(
     private locationService: LocationService,
@@ -54,40 +56,25 @@ export class HomeComponent implements OnInit, OnDestroy {
           if (fieldLocation !== this.userFilterInput) {
             this.sessionStorageService.removeItem(HOME_FIELDS);
           }
-          this.paginator = {
-            length: 0,
-            pageSize: 10,
-            pageIndex: 0,
-          };
+          this.resetPaginator();
+          this.selectedFieldType = '';
           this.userFilterInput = fieldLocation;
-          this.address = fieldLocation.address;
           this.filterActivated = true;
-          return this.getFieldsDataFromLocalStorage();
+          return this.getFieldsDataFromSessionStorage();
         }
-        return this.getFieldsDataFromLocalStorage();
+        return this.getFieldsDataFromSessionStorage();
       },
     });
   }
 
-  handleChangeStateComponent(): void {
-    this.resetFieldsContentBeforeFetchingData();
-    this.sessionStorageService.removeItem(HOME_FIELDS);
-    this.filterActivated = false;
-    this.paginator = {
-      length: 0,
-      pageSize: 10,
-      pageIndex: 0,
-    };
-    this.fetchFieldsList();
-  }
-
-  getFieldsDataFromLocalStorage(): void {
+  getFieldsDataFromSessionStorage(): void {
     if (this.sessionStorageService.getItem(HOME_FIELDS) !== null) {
       this.fields = this.sessionStorageService.getItem(HOME_FIELDS).fields;
       this.paginator = this.sessionStorageService.getItem(HOME_FIELDS).paginator;
-      this.address = this.sessionStorageService.getItem(HOME_FIELDS).address;
       this.filterActivated = this.sessionStorageService.getItem(HOME_FIELDS).filterActivated;
       this.userFilterInput = this.sessionStorageService.getItem(HOME_FIELDS).userFilterInput;
+      this.selectedCity = this.sessionStorageService.getItem(HOME_FIELDS).selectedCity;
+      this.selectedFieldType = this.sessionStorageService.getItem(HOME_FIELDS).selectedFieldType;
       this.isLoading = false;
       return;
     }
@@ -97,9 +84,9 @@ export class HomeComponent implements OnInit, OnDestroy {
   fetchFieldsList(): void {
     this.resetFieldsContentBeforeFetchingData();
     (this.filterActivated ?
-      this.fieldService.fetchFieldsByGeoFilter(this.paginator, this.userFilterInput)
+      this.fieldService.fetchFieldsByGeoFilter(this.paginator, this.userFilterInput, this.selectedFieldType)
       :
-      this.fieldService.fetchFields(this.paginator, this.selectedCity))
+      this.fieldService.fetchFields(this.paginator, this.selectedCity, this.selectedFieldType))
         .subscribe({
           next: (fields: FieldsModel) => {
             if (fields.nhits === 0) {
@@ -118,21 +105,22 @@ export class HomeComponent implements OnInit, OnDestroy {
       .subscribe({
         next: ({features}) => {
           this.fields = [...this.fields, {...field, location: features[0] ? features[0].properties : {}}];
-          this.setFieldsDataToLocalStorage();
+          this.setFieldsDataToSessionStorage();
           this.isLoading = false;
         },
       });
   }
 
-  setFieldsDataToLocalStorage(): void {
+  setFieldsDataToSessionStorage(): void {
     this.sessionStorageService.setItem(
       this.sessionStorageKey,
       {
         fields: this.fields,
         paginator: this.paginator,
-        address: this.address ? this.address : '',
+        selectedCity: this.selectedCity,
         filterActivated: this.filterActivated,
-        userFilterInput: this.userFilterInput ? this.userFilterInput : null
+        userFilterInput: this.userFilterInput ? this.userFilterInput : null,
+        selectedFieldType: this.selectedFieldType
       }
     );
   }
@@ -142,12 +130,37 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.fields = [];
   }
 
-  handleChangePage(event: PageEvent): void {
-    this.paginator.pageIndex = event.pageIndex;
-    return this.fetchFieldsList();
+  resetPaginator(): void {
+    this.paginator = {
+      length: 0,
+      pageSize: 10,
+      pageIndex: 0,
+    };
   }
 
-  handleChangeCity(): void {
+  handleChangeStateComponent(): void {
+    this.resetFieldsContentBeforeFetchingData();
+    this.selectedFieldType = '';
+    this.sessionStorageService.removeItem(HOME_FIELDS);
+    this.filterActivated = false;
+    this.resetPaginator();
+    this.fetchFieldsList();
+  }
+
+  handleChangePage(event: PageEvent): void {
+    this.paginator.pageIndex = event.pageIndex;
+    this.fetchFieldsList();
+  }
+
+  handleChangeCity(value: string): void {
+    this.selectedCity = value;
+    this.resetPaginator();
+    this.fetchFieldsList();
+  }
+
+  handleCheckFieldType(value: string): void {
+    this.selectedFieldType = value ? value : '';
+    this.resetPaginator();
     this.fetchFieldsList();
   }
 

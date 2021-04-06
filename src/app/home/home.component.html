@@ -1,6 +1,3 @@
-<button *ngIf="filterActivated" mat-stroked-button type="button" color="primary" (click)="handleChangeStateComponent()">
-  {{address}}
-</button>
 <app-fields
   [userFilterInput]="userFilterInput"
   [filterActivated]="filterActivated"
@@ -9,5 +6,9 @@
   [noResult]="noResult"
   [selectedCity]="selectedCity"
   [fields]="fields"
+  [selectedFieldType]="selectedFieldType"
   (paginatorEvent)="handleChangePage($event)"
+  (selectCityEvent)="handleChangeCity($event)"
+  (checkFieldType)="handleCheckFieldType($event)"
+  (stateComponent)="handleChangeStateComponent()"
 ></app-fields>

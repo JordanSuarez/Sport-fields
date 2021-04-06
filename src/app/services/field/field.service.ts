@@ -21,14 +21,16 @@ export class FieldService {
   private fieldLocation = new BehaviorSubject(this.fieldLocationSubject);
   filteredField = this.fieldLocation.asObservable();
 
+  private fieldType = (type: string) => type.length > 0 ? `&refine.equipementtypelib=${type}` : '';
+
   constructor(private http: HttpClient) {}
 
   // Fetch data from APIs
-  fetchFields(paginator: PaginatorModel, city: string): Observable<FieldsModel> {
+  fetchFields(paginator: PaginatorModel, city: string, fieldType: string): Observable<FieldsModel> {
     const rows = paginator.pageSize;
     const start = paginator.pageIndex * 10;
     return this.http.get<FieldsModel>(
-      `${environment.openDataSoft}&q=&rows=${rows}&start=${start}&refine.comlib=${city}`
+      `${environment.openDataSoft}&q=&rows=${rows}&start=${start}&refine.comlib=${city}${this.fieldType(fieldType)}`
     );
   }
 
@@ -42,12 +44,12 @@ export class FieldService {
     return this.http.get<FieldsModel>(`${environment.openDataSoft}&refine.recordid=${id}`);
   }
 
-  fetchFieldsByGeoFilter(paginator: PaginatorModel, filteredField: FilterModel): Observable<FieldsModel> {
+  fetchFieldsByGeoFilter(paginator: PaginatorModel, filteredField: FilterModel, fieldType: string): Observable<FieldsModel> {
     const rows = paginator.pageSize;
     const start = paginator.pageIndex * 10;
     const longitude = filteredField.location.geometry.coordinates[1];
     const latitude = filteredField.location.geometry.coordinates[0];
-    return this.http.get<FieldsModel>(`${environment.openDataSoft}&q=&rows=${rows}&start=${start}&geofilter.distance=${longitude}%2C+${latitude}%2C+${filteredField.distance}`);
+    return this.http.get<FieldsModel>(`${environment.openDataSoft}&q=&rows=${rows}&start=${start}&geofilter.distance=${longitude}%2C+${latitude}%2C+${filteredField.distance}${this.fieldType(fieldType)}`);
   }
 
   // Share data between components

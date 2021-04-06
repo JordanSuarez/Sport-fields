@@ -51,7 +51,7 @@ registerLocaleData(localeFr, 'fr');
       apiKey: environment.googleMapsKey
     }),
     ReactiveFormsModule,
-    FormsModule
+    FormsModule,
   ],
   providers: [
     { provide: LOCALE_ID, useValue: 'fr' }

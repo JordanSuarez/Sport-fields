@@ -1,7 +1,5 @@
 import { Injectable } from '@angular/core';
 
-export const HOME_FIELDS = 'homeFields';
-
 @Injectable({
   providedIn: 'root'
 })
