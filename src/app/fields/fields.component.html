@@ -1,24 +1,24 @@
 <div class="fields">
   <section class="fields__header">
-      <h1 class="fields__header__title">Liste des équipements</h1>
+      <h1 class="fields__header__title">{{template.title}}</h1>
     <section class="fields__header__select">
       <mat-form-field appearance="outline" class="fields__header__select__field" *ngIf="!filterActivated">
-        <mat-label>Sélectionner une ville</mat-label>
-        <mat-select [(ngModel)]="selectedCity" (valueChange)="handleChangeCity($event)">
+        <mat-label>{{template.selectedCityLabel}}</mat-label>
+        <mat-select [(ngModel)]="selectedCity" (valueChange)="handleEvent(selectCityEvent, $event)">
           <mat-option *ngFor="let city of cities" [value]="city.name">{{city.name}}</mat-option>
         </mat-select>
       </mat-form-field>
       <mat-form-field appearance="outline" *ngIf="filterActivated" class="fields__header__select__field">
-        <mat-label>Adresse sélectionné</mat-label>
+        <mat-label>{{template.addressLabel}}</mat-label>
         <input disabled matInput [(ngModel)]="userFilterInput.address">
-        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="handleChangeStateComponent()">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="handleEvent(clearEvent)">
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-form-field>
       <mat-form-field appearance="outline" class="fields__header__select__field">
-        <mat-label>Filtrer par type d'équipement</mat-label>
-        <mat-select [(value)]="selectedFieldType" (selectionChange)="handleCheckbox($event)">
-          <mat-option>Aucun</mat-option>
+        <mat-label>{{template.selectedFieldType.label}}</mat-label>
+        <mat-select [(value)]="selectedFieldType" (selectionChange)="handleEvent(selectedFieldTypeEvent, $event)">
+          <mat-option>{{template.selectedFieldType.option}}</mat-option>
           <mat-option *ngFor="let fieldType of fieldTypes" [value]="fieldType.name" >
             {{fieldType.name}}
           </mat-option>
@@ -32,5 +32,5 @@
       <app-card [field]="field" *ngIf="!isLoading"></app-card>
     </div>
   </div>
-  <app-pagination [paginator]="paginator" (paginatorEvent)="pageEvent($event)"></app-pagination>
+  <app-pagination [paginator]="paginator" (paginatorEvent)="handleEvent(paginatorEvent, $event)"></app-pagination>
 </div>

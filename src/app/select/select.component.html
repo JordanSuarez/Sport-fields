@@ -1,6 +1,6 @@
 <form (ngSubmit)="handleSubmit()" class="select">
   <p class="select__title" *ngIf="selectCtrl.pristine">Adresse incorrecte, faites un choix dans la liste</p>
-  <mat-form-field appearance="fill" class="select__form">
+  <mat-form-field appearance="outline" class="select__form">
     <mat-label>Choisir une adresse</mat-label>
     <mat-select [formControl]="selectCtrl">
       <div *ngFor="let address of addressList">

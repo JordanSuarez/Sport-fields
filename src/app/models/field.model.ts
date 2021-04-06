@@ -1,4 +1,6 @@
 import { LocationPropertiesModel } from './location.model';
+import { FilterModel } from './filter.model';
+import { PaginatorModel } from './paginator.model';
 
 export interface FieldsModel {
   nhits: number;
@@ -32,4 +34,16 @@ export interface FieldTypeModel {
   name: string;
 }
 
+export interface FieldDistanceModel {
+  distance: number;
+  label: string;
+}
 
+export interface HomeModel {
+  fields: Array<FieldRecordsModel>;
+  paginator: PaginatorModel;
+  filterActivated: boolean;
+  userFilterInput: FilterModel;
+  selectedCity: string;
+  selectedFieldType: string;
+}

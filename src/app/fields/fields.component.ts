@@ -1,9 +1,7 @@
-import { Component, EventEmitter, Input, OnInit, Output } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { CityModel, FieldRecordsModel, FieldTypeModel } from 'src/app/models/field.model';
-import { cities } from 'src/app/constants/cities';
-import { fieldTypes } from 'src/app/constants/field-types';
+import { fieldTypes, cities } from 'src/app/constants/field';
 import { PaginatorModel } from 'src/app/models/paginator.model';
 import { FilterModel } from 'src/app/models/filter.model';
 
@@ -12,7 +10,7 @@ import { FilterModel } from 'src/app/models/filter.model';
   templateUrl: './fields.component.html',
   styleUrls: ['./fields.component.scss']
 })
-export class FieldsComponent implements OnInit {
+export class FieldsComponent {
   // Filter Inputs
   @Input() filterActivated!: boolean;
   @Input() userFilterInput!: FilterModel;
@@ -32,29 +30,29 @@ export class FieldsComponent implements OnInit {
   cities: Array<CityModel> = cities;
   fieldTypes: Array<FieldTypeModel> = fieldTypes;
 
-  // Paginator Output
+  // Output
   @Output() paginatorEvent = new EventEmitter<any>();
   @Output() selectCityEvent = new EventEmitter<any>();
-  @Output() checkFieldType = new EventEmitter<any>();
-  @Output() stateComponent = new EventEmitter<any>();
+  @Output() selectedFieldTypeEvent = new EventEmitter<any>();
+  @Output() clearEvent = new EventEmitter<any>();
+
+  // HTML Inputs
+  template = {
+    title: 'Liste des équipements',
+    selectedCityLabel: 'Sélectionner une ville',
+    addressLabel: 'Adresse sélectionné',
+    selectedFieldType: {
+      label: 'Filtrer par type d\'équipement',
+      option: 'Aucun',
+    },
+  };
 
   constructor() {}
 
-  ngOnInit(): void {}
-
-  pageEvent(event: PageEvent): void {
-    this.paginatorEvent.emit(event);
-  }
-
-  handleChangeCity(value: string): void {
-    this.selectCityEvent.emit(value);
-  }
-
-  handleCheckbox(value: any): void {
-    this.checkFieldType.emit(value.value);
-  }
-
-  handleChangeStateComponent(): void {
-    this.stateComponent.emit();
+  handleEvent(event: EventEmitter<any>, eventValue: any = null): void {
+    if (eventValue) {
+      return event.emit(eventValue);
+    }
+    return event.emit();
   }
 }

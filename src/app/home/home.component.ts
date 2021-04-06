@@ -5,11 +5,9 @@ import { Subscription } from 'rxjs';
 import { FieldService } from 'src/app/services/field/field.service';
 import { SessionStorageService } from 'src/app/services/session-storage/session-storage.service';
 import { HOME_FIELDS } from 'src/app/constants/session-storage';
-import { FilterModel } from 'src/app/models/filter.model';
-import { FieldRecordsModel, FieldsModel } from 'src/app/models/field.model';
-import { PaginatorModel } from 'src/app/models/paginator.model';
+import {FieldRecordsModel, FieldsModel, HomeModel} from 'src/app/models/field.model';
 import { LocationService } from 'src/app/services/location/location.service';
-import { cities } from 'src/app/constants/cities';
+import { cities } from 'src/app/constants/field';
 
 @Component({
   selector: 'app-home',
@@ -20,29 +18,30 @@ export class HomeComponent implements OnInit, OnDestroy {
   sessionStorageKey = HOME_FIELDS ;
 
   // Filter Input
-  filterActivated = false;
-  userFilterInput!: FilterModel;
   filterSubscription!: Subscription;
 
-  // Paginator Input
-  paginator: PaginatorModel = {
-    length: 0,
-    pageSize: 10,
-    pageIndex: 0,
-  };
-
   // Fields Inputs
-  selectedFieldType = '';
-  fields: Array<FieldRecordsModel> = [];
-  selectedCity = cities[0].name;
   noResult!: boolean;
   isLoading = true;
+
+  homeModel: HomeModel = {
+    fields: [],
+    paginator: {
+      length: 0,
+      pageSize: 10,
+      pageIndex: 0,
+    },
+    selectedFieldType: '',
+    selectedCity: cities[0].name,
+    filterActivated: false,
+  } as unknown as HomeModel;
+
 
   constructor(
     private locationService: LocationService,
     private fieldService: FieldService,
     private sessionStorageService: SessionStorageService
-  ) { }
+  ) {}
 
   ngOnInit(): void {
     this.resetFieldsContentBeforeFetchingData();
@@ -53,13 +52,13 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.filterSubscription = this.fieldService.filteredField.subscribe({
       next: (fieldLocation) => {
         if (fieldLocation) {
-          if (fieldLocation !== this.userFilterInput) {
+          if (fieldLocation !== this.homeModel.userFilterInput) {
             this.sessionStorageService.removeItem(HOME_FIELDS);
           }
           this.resetPaginator();
-          this.selectedFieldType = '';
-          this.userFilterInput = fieldLocation;
-          this.filterActivated = true;
+          this.homeModel.selectedFieldType = '';
+          this.homeModel.userFilterInput = fieldLocation;
+          this.homeModel.filterActivated = true;
           return this.getFieldsDataFromSessionStorage();
         }
         return this.getFieldsDataFromSessionStorage();
@@ -69,12 +68,7 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   getFieldsDataFromSessionStorage(): void {
     if (this.sessionStorageService.getItem(HOME_FIELDS) !== null) {
-      this.fields = this.sessionStorageService.getItem(HOME_FIELDS).fields;
-      this.paginator = this.sessionStorageService.getItem(HOME_FIELDS).paginator;
-      this.filterActivated = this.sessionStorageService.getItem(HOME_FIELDS).filterActivated;
-      this.userFilterInput = this.sessionStorageService.getItem(HOME_FIELDS).userFilterInput;
-      this.selectedCity = this.sessionStorageService.getItem(HOME_FIELDS).selectedCity;
-      this.selectedFieldType = this.sessionStorageService.getItem(HOME_FIELDS).selectedFieldType;
+      this.homeModel = this.sessionStorageService.getItem(HOME_FIELDS);
       this.isLoading = false;
       return;
     }
@@ -83,17 +77,17 @@ export class HomeComponent implements OnInit, OnDestroy {
 
   fetchFieldsList(): void {
     this.resetFieldsContentBeforeFetchingData();
-    (this.filterActivated ?
-      this.fieldService.fetchFieldsByGeoFilter(this.paginator, this.userFilterInput, this.selectedFieldType)
+    (this.homeModel.filterActivated ?
+      this.fieldService.fetchFieldsByGeoFilter(this.homeModel.paginator, this.homeModel.userFilterInput, this.homeModel.selectedFieldType)
       :
-      this.fieldService.fetchFields(this.paginator, this.selectedCity, this.selectedFieldType))
+      this.fieldService.fetchFields(this.homeModel.paginator, this.homeModel.selectedCity, this.homeModel.selectedFieldType))
         .subscribe({
           next: (fields: FieldsModel) => {
             if (fields.nhits === 0) {
               this.isLoading = false;
               return this.noResult = true;
             }
-            this.paginator.length = fields.nhits;
+            this.homeModel.paginator.length = fields.nhits;
             return fields.records.map(field => this.fetchFieldsLocation(field));
           },
         });
@@ -104,7 +98,7 @@ export class HomeComponent implements OnInit, OnDestroy {
       .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
       .subscribe({
         next: ({features}) => {
-          this.fields = [...this.fields, {...field, location: features[0] ? features[0].properties : {}}];
+          this.homeModel.fields = [...this.homeModel.fields, {...field, location: features[0] ? features[0].properties : {}}];
           this.setFieldsDataToSessionStorage();
           this.isLoading = false;
         },
@@ -112,54 +106,44 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   setFieldsDataToSessionStorage(): void {
-    this.sessionStorageService.setItem(
-      this.sessionStorageKey,
-      {
-        fields: this.fields,
-        paginator: this.paginator,
-        selectedCity: this.selectedCity,
-        filterActivated: this.filterActivated,
-        userFilterInput: this.userFilterInput ? this.userFilterInput : null,
-        selectedFieldType: this.selectedFieldType
-      }
-    );
+    this.sessionStorageService.setItem(this.sessionStorageKey, this.homeModel);
   }
 
   resetFieldsContentBeforeFetchingData(): void {
     this.isLoading = true;
-    this.fields = [];
+    this.homeModel.fields = [];
   }
 
   resetPaginator(): void {
-    this.paginator = {
+    this.homeModel.paginator = {
       length: 0,
       pageSize: 10,
       pageIndex: 0,
     };
   }
 
-  handleChangeStateComponent(): void {
+  handleClearState(): void {
     this.resetFieldsContentBeforeFetchingData();
-    this.selectedFieldType = '';
+    this.homeModel.selectedFieldType = '';
     this.sessionStorageService.removeItem(HOME_FIELDS);
-    this.filterActivated = false;
+    this.homeModel.filterActivated = false;
     this.resetPaginator();
     this.fetchFieldsList();
   }
 
   handleChangePage(event: PageEvent): void {
-    this.paginator.pageIndex = event.pageIndex;
+    this.homeModel.paginator.pageIndex = event.pageIndex;
     this.fetchFieldsList();
   }
 
   handleChangeCity(value: string): void {
-    this.selectedCity = value;
+    this.homeModel.selectedCity = value;
     this.resetPaginator();
     this.fetchFieldsList();
   }
 
-  handleCheckFieldType(value: string): void {
-    this.selectedFieldType = value ? value : '';
+  handleCheckFieldType({value}: any): void {
+    this.homeModel.selectedFieldType = value ? value : '';
     this.resetPaginator();
     this.fetchFieldsList();
   }
