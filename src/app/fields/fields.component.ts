@@ -1,92 +1,58 @@
-import { Component, Input, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
-import { Observable } from 'rxjs';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { FieldRecordsModel, FieldsModel } from 'src/app/models/field.model';
+import { CityModel, FieldRecordsModel, FieldTypeModel } from 'src/app/models/field.model';
+import { fieldTypes, cities } from 'src/app/constants/field';
 import { PaginatorModel } from 'src/app/models/paginator.model';
-import { LocalStorageService } from 'src/app/local-storage.service';
-import { LocationService } from 'src/app/location.service';
-import { FieldService } from 'src/app/field.service';
+import { FilterModel } from 'src/app/models/filter.model';
 
 @Component({
-  selector: 'app-sport-fields',
+  selector: 'app-fields',
   templateUrl: './fields.component.html',
   styleUrls: ['./fields.component.scss']
 })
-export class FieldsComponent implements OnInit {
+export class FieldsComponent {
+  // Filter Inputs
+  @Input() filterActivated!: boolean;
+  @Input() userFilterInput!: FilterModel;
+
   // Paginator Input
-  paginator: PaginatorModel = {
-    length: 0,
-    pageSize: 10,
-    pageIndex: 0,
-  };
+  @Input() paginator!: PaginatorModel;
 
   // Fields Inputs
-  @Input() getFields!: (...arg: any) => Observable<any>;
-  fields: Array<FieldRecordsModel> = [];
-  isLoading = true;
+  @Input() selectedFieldType!: string;
+  @Input() fields: Array<FieldRecordsModel> = [];
+  @Input() isLoading!: boolean;
+  // TODO display no result component if true
+  @Input() noResult!: boolean;
 
-  // Localstorage Inputs
-  @Input() localStorageKey!: string;
+  // Select city Inputs
+  @Input() selectedCity!: string;
+  cities: Array<CityModel> = cities;
+  fieldTypes: Array<FieldTypeModel> = fieldTypes;
 
+  // Output
+  @Output() paginatorEvent = new EventEmitter<any>();
+  @Output() selectCityEvent = new EventEmitter<any>();
+  @Output() selectedFieldTypeEvent = new EventEmitter<any>();
+  @Output() clearEvent = new EventEmitter<any>();
 
-  constructor(
-    private locationService: LocationService,
-    private fieldService: FieldService,
-    private localStorageService: LocalStorageService
-  ) {}
+  // HTML Inputs
+  template = {
+    title: 'Liste des équipements',
+    selectedCityLabel: 'Sélectionner une ville',
+    addressLabel: 'Adresse sélectionné',
+    selectedFieldType: {
+      label: 'Filtrer par type d\'équipement',
+      option: 'Aucun',
+    },
+  };
 
-  ngOnInit(): void {
-    if (this.localStorageService.getItem(this.localStorageKey) !== null) {
-      this.fields = this.localStorageService.getItem(this.localStorageKey).fields;
-      this.paginator = this.localStorageService.getItem(this.localStorageKey).paginator;
-      this.isLoading = false;
-    } else {
-      this.fetchFieldsList();
+  constructor() {}
+
+  handleEvent(event: EventEmitter<any>, eventValue: any = null): void {
+    if (eventValue) {
+      return event.emit(eventValue);
     }
-  }
-
-  handleChangePage(event: PageEvent): void {
-    this.paginator.pageIndex = event.pageIndex;
-    this.isLoading = true;
-    this.fields = [];
-    this.fetchFieldsList();
-  }
-
-  fetchFieldsList(): void {
-    this.getFields(this.paginator.pageSize, this.paginator.pageIndex * 10, 'Lyon').subscribe(fields => {
-      this.paginator.length = fields.nhits;
-      this.fetchFieldsLocation(fields);
-    });
-  }
-
-  fetchFieldsLocation(fields: FieldsModel): void {
-    fields.records.map((field: FieldRecordsModel) => {
-      this.locationService
-          .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
-          .subscribe(({features}) => {
-            this.fields = [
-              ...this.fields,
-              {
-                ...field,
-                location: features[0].properties,
-              }
-            ];
-            this.setFieldsDataToLocalStorage();
-            this.isLoading = false;
-          })
-        ;
-      }
-    );
-  }
-
-  setFieldsDataToLocalStorage(): void {
-    this.localStorageService.setItem(
-      this.localStorageKey,
-      {
-        fields: this.fields,
-        paginator: this.paginator
-      }
-    );
+    return event.emit();
   }
 }

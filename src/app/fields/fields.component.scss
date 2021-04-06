@@ -1,11 +1,42 @@
 @use 'src/vars';
 
 .fields{
-  margin: 1rem;
   display: flex;
   justify-content: space-between;
   flex-direction: column;
   height: 90vh;
+  &__header {
+  margin: 1rem 1rem 0;
+    &__title {
+      display: flex;
+      @media(max-width: vars.$breakpoint-sm) {
+        justify-content: center;
+      }
+    }
+    &__filter {
+      display: flex;
+      justify-content: space-between;
+    }
+    &__select {
+      display: flex;
+      justify-content: flex-end;
+      flex-wrap: wrap;
+      @media(max-width: vars.$breakpoint-md) {
+        justify-content: space-between;
+      }
+      @media(max-width: vars.$breakpoint-sm) {
+        justify-content: center;
+      }
+      &__field {
+        margin-left: 1rem;
+        margin-top: 1rem;
+        width: 15rem;
+        @media(max-width: vars.$breakpoint-md) {
+          margin-left: 0;
+        }
+      }
+    }
+  }
   &__container {
     display: flex;
     flex-wrap: wrap;

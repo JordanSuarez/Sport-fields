@@ -1,17 +1,16 @@
-.sidenav-container {
-  height: 100%;
+@use 'src/vars';
+
+.navbar {
+  padding: 1rem;
 }
 
-.sidenav {
-  width: 200px;
+.navbar-nav {
+  margin-inline-start: auto
 }
 
-.sidenav .mat-toolbar {
-  background: inherit;
+.navbar-collapse {
+  @media(max-width: vars.$breakpoint-lg) {
+    margin-top: 1rem;
+  }
 }
 
-.mat-toolbar.mat-primary {
-  position: sticky;
-  top: 0;
-  z-index: 1;
-}

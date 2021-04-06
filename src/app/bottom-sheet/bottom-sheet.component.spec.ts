@@ -1,20 +1,20 @@
 import { ComponentFixture, TestBed } from '@angular/core/testing';
 
-import { AthleticsTracksComponent } from './athletics-tracks.component';
+import { BottomSheetComponent } from './bottom-sheet.component';
 
-describe('AthleticsTracksComponent', () => {
-  let component: AthleticsTracksComponent;
-  let fixture: ComponentFixture<AthleticsTracksComponent>;
+describe('DialogComponent', () => {
+  let component: BottomSheetComponent;
+  let fixture: ComponentFixture<BottomSheetComponent>;
 
   beforeEach(async () => {
     await TestBed.configureTestingModule({
-      declarations: [ AthleticsTracksComponent ]
+      declarations: [ BottomSheetComponent ]
     })
     .compileComponents();
   });
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(AthleticsTracksComponent);
+    fixture = TestBed.createComponent(BottomSheetComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

@@ -1,0 +1,13 @@
+@use 'src/vars';
+
+.select {
+  &__title {
+    color: vars.$error-color
+  }
+  &__form {
+    width: 100%;
+    &__button {
+      width: 100%;
+    }
+  }
+}

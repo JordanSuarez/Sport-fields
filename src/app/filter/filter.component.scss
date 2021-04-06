@@ -1,0 +1,16 @@
+.filter {
+  display: flex;
+  flex-direction: column;
+  margin-bottom: 0.5rem;
+  &__title {
+    margin-top: 1rem;
+  }
+  &__form {
+    display: flex;
+    flex-direction: column;
+    &__input, &__button{
+      margin-top: 1rem;
+    }
+  }
+}
+

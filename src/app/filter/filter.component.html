@@ -1,0 +1,47 @@
+<div class="filter">
+  <h1 class="filter__title">{{template.title}}</h1>
+  <form (ngSubmit)="handleSubmit()" [formGroup]="formValues" class="filter__form" *ngIf="!selectButtonActivated">
+    <mat-form-field class="filter__form__input" appearance="outline">
+      <mat-label>{{template.streetNumber.label}}</mat-label>
+      <input matInput [placeholder]="template.streetNumber.placeholder" type="number" [formControl]="streetNumberCtrl" (click)="noResult= false">
+      <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('required')">{{template.input.required}}</mat-error>
+      <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('min')">
+        {{template.streetNumber.error}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="filter__form__input" appearance="outline">
+      <mat-label>{{template.streetName.label}}</mat-label>
+      <input matInput [placeholder]="template.streetName.placeholder" [formControl]="streetNameCtrl" (click)="noResult= false">
+      <mat-error *ngIf="streetNameCtrl.dirty && streetNameCtrl.hasError('required')">{{template.input.required}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="filter__form__input" appearance="outline">
+      <mat-label>{{template.postCode.label}}</mat-label>
+      <input matInput [placeholder]="template.postCode.placeholder" type="number" [formControl]="postCodeCtrl" (click)="noResult= false">
+      <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('required')">{{template.input.required}}</mat-error>
+      <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('pattern')">
+        {{template.postCode.error}}
+      </mat-error>
+    </mat-form-field>
+    <mat-form-field class="filter__form__input" appearance="outline">
+      <mat-label>{{template.city.label}}</mat-label>
+      <input matInput [placeholder]="template.city.placeholder" [formControl]="cityCtrl" (click)="noResult= false">
+      <mat-error *ngIf="cityCtrl.dirty && cityCtrl.hasError('required')">{{template.input.required}}</mat-error>
+    </mat-form-field>
+    <mat-form-field class="filter__form__input" appearance="outline">
+      <mat-label>{{template.distance.label}}</mat-label>
+      <mat-select [formControl]="distanceCtrl">
+          <mat-option *ngFor="let fieldDistance of fieldsDistance" [value]="fieldDistance.distance">{{fieldDistance.label}}</mat-option>
+      </mat-select>
+      <mat-error *ngIf="distanceCtrl.hasError('required')">{{template.input.required}}</mat-error>
+    </mat-form-field>
+    <div id="registration-error" class="alert alert-danger" *ngIf="noResult">
+      <button type="button" class="close" aria-label="Close" (click)="noResult = false">
+        <span aria-hidden="true">&#215;</span>
+      </button>
+      {{template.snackBar.label}}
+    </div>
+    <button mat-raised-button type="submit" [disabled]="formValues.invalid || submitting" color="primary" class="filter__form__button">{{template.button.submit}}</button>
+  </form>
+    <app-select *ngIf="selectButtonActivated" [addressList]="addressList" class="filter__select" (handleSubmitSelectedAddress)="handleSubmitSelectedAddress($event)"></app-select>
+    <button *ngIf="selectButtonActivated" mat-stroked-button type="button" color="primary" class="filter__form__button" (click)="selectButtonActivated = false">{{template.button.back}}</button>
+</div>
