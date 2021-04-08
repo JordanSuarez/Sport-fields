@@ -3,15 +3,44 @@
 .card {
   margin: 1rem;
   padding: 1rem;
-  min-height: 10rem;
+  min-height: 12rem;
   display: flex;
   flex-direction: column;
   justify-content: space-around;
-  &__title {
-    color: vars.$primary-color
+  &__header {
+    position: relative;
+    margin-left: 0;
+    &__title {
+      width: 90%;
+      line-height: 1.5rem;
+    }
   }
-  &__subtitle {
-    display: block;
-    font-size: 1rem;
+
+  &__actions {
+    display: flex;
+    margin: 0.1rem;
+    flex-wrap: wrap;
+    padding-top: 0;
+    justify-content: space-between;
+    @media (max-width: vars.$breakpoint-sm) {
+      flex-direction: column-reverse;
+    }
+    &__text {
+      display: flex;
+      align-items: flex-end;
+      &__icon {
+        color: vars.$primary-color;
+        margin-left: 0.5rem;
+        &--red {
+          color: vars.$error-color
+        }
+      }
+    }
+    &__button {
+      width: 40%;
+      @media (max-width: vars.$breakpoint-sm) {
+        width: 100%;
+      }
+    }
   }
 }

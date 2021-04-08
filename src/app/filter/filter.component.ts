@@ -8,7 +8,7 @@ import { FilterModel } from 'src/app/models/filter.model';
 import { LocationService } from 'src/app/services/location/location.service';
 import { FieldService } from 'src/app/services/field/field.service';
 import { FieldDistanceModel } from 'src/app/models/field.model';
-import { fieldsDistance } from 'src/app/constants/field';
+import { fieldsDistance } from 'src/assets/data/field';
 
 @Component({
   selector: 'app-filter',

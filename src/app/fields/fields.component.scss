@@ -34,6 +34,9 @@
         @media(max-width: vars.$breakpoint-md) {
           margin-left: 0;
         }
+        @media (max-width: vars.$breakpoint-sm) {
+          width: 100%;
+        }
       }
     }
   }
@@ -43,6 +46,6 @@
     justify-content: center;
   }
   &__card {
-    width: 50%;
+    width: 30rem;
   }
 }
