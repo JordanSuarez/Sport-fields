@@ -88,6 +88,7 @@ export class HomeComponent implements OnInit, OnDestroy {
               return this.noResult = true;
             }
             this.homeModel.paginator.length = fields.nhits;
+            this.noResult = false;
             return fields.records.map(field => this.fetchFieldsLocation(field));
           },
           error: () => this.noResult = true,
