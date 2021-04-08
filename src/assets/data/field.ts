@@ -6,7 +6,7 @@ export const fieldTypes: Array<FieldTypeModel> = [
   {name: 'Terrain de basket-ball'},
   {name: 'Terrain de handball'},
   {name: 'Piste d\'athlétisme isolée'},
-  {name: 'Cour de tennis'},
+  {name: 'Court de tennis'},
   {name: 'Skate park'},
   {name: 'Structure Artificielle d\'Escalade'},
   {name: 'Plateau EPS/Multisports/city-stades'},

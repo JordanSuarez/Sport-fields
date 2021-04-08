@@ -1,7 +1,7 @@
 import { Component, EventEmitter, Input, Output } from '@angular/core';
 
 import { CityModel, FieldRecordsModel, FieldTypeModel } from 'src/app/models/field.model';
-import { fieldTypes, cities } from 'src/app/constants/field';
+import { fieldTypes, cities } from 'src/assets/data/field';
 import { PaginatorModel } from 'src/app/models/paginator.model';
 import { FilterModel } from 'src/app/models/filter.model';
 

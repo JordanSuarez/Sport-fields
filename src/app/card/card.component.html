@@ -1,12 +1,19 @@
-<div class="card">
-  <h2 class="card__title">
-    {{field.fields.insnom}}
-    <span class="card__subtitle">{{field.fields.equnom}}</span>
-  </h2>
-  <section class="card__content__label">
-    <p>{{field.location.label}}</p>
+<mat-card class="card">
+  <section class="card__header">
+    <mat-card-title class="card__header__title">{{field.fields.insnom}}</mat-card-title>
+    <mat-card-subtitle>{{field.fields.equnom}}</mat-card-subtitle>
   </section>
-  <button mat-stroked-button color="primary" [routerLink]="['/fields', field.recordid]" (click)="handleFieldProvider(field)" class="card__content__button">
-    Voir plus
-  </button>
-</div>
+  <mat-card-content>
+    <p>{{field.location.label}}</p>
+  </mat-card-content>
+  <mat-card-actions class="card__actions">
+    <button mat-stroked-button color="primary" [routerLink]="['/fields', field.recordid]" (click)="handleFieldProvider(field)" class="card__actions__button">
+      Voir plus
+    </button>
+    <p class="card__actions__text" *ngIf="this.field.fields.equacceshandimaire">
+      Accessibilité:
+        <span class="material-icons card__actions__text__icon" *ngIf="handicapAccess">accessible_forward</span>
+        <span class="material-icons card__actions__text__icon card__actions__text__icon--red" *ngIf="!handicapAccess">not_accessible</span>
+    </p>
+  </mat-card-actions>
+</mat-card>

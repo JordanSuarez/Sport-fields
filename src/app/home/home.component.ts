@@ -7,7 +7,7 @@ import { SessionStorageService } from 'src/app/services/session-storage/session-
 import { HOME_FIELDS } from 'src/app/constants/session-storage';
 import {FieldRecordsModel, FieldsModel, HomeModel} from 'src/app/models/field.model';
 import { LocationService } from 'src/app/services/location/location.service';
-import { cities } from 'src/app/constants/field';
+import { cities } from 'src/assets/data/field';
 
 @Component({
   selector: 'app-home',
