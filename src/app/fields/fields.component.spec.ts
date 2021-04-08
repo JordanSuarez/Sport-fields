@@ -7,15 +7,15 @@ import { MatGridListModule } from '@angular/material/grid-list';
 import { MatIconModule } from '@angular/material/icon';
 import { MatMenuModule } from '@angular/material/menu';
 
-import { SportFieldsComponent } from './fields.component';
+import { FieldsComponent } from './fields.component';
 
 describe('SportFieldsComponent', () => {
-  let component: SportFieldsComponent;
-  let fixture: ComponentFixture<SportFieldsComponent>;
+  let component: FieldsComponent;
+  let fixture: ComponentFixture<FieldsComponent>;
 
   beforeEach(waitForAsync(() => {
     TestBed.configureTestingModule({
-      declarations: [SportFieldsComponent],
+      declarations: [FieldsComponent],
       imports: [
         NoopAnimationsModule,
         LayoutModule,
@@ -29,7 +29,7 @@ describe('SportFieldsComponent', () => {
   }));
 
   beforeEach(() => {
-    fixture = TestBed.createComponent(SportFieldsComponent);
+    fixture = TestBed.createComponent(FieldsComponent);
     component = fixture.componentInstance;
     fixture.detectChanges();
   });

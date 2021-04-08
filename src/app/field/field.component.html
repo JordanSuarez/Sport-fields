@@ -1,7 +1,7 @@
 <div class="field">
   <app-spinner [isLoading]="isLoading"></app-spinner>
   <div *ngIf="!isLoading">
-    <h1 class="field__title">{{field.fields.equnom}}<span class="field__subtitle"> - {{field.fields.insnom}}</span></h1>
+    <h1 class="field__title">{{field.fields.insnom}}<span class="field__subtitle"> - {{field.fields.equnom}}</span></h1>
     <span *ngIf="date">Créé le {{date}}</span>
     <mat-list>
       <mat-list-item> Adresse : {{fieldLocation.label}} </mat-list-item>
@@ -11,27 +11,27 @@
     </mat-list>
     <h2 class="field__title">Accès</h2>
     <app-google-map [field]="field.fields"></app-google-map>
-    <button mat-stroked-button color="primary" (click)="handleClick(field.fields.comlib, field.fields.equipementtypecode)">
-      Voir d'autres lieux similaire
-    </button>
-    <div class="field__container">
-      <div *ngFor="let similarField of similarFields" class="field__container__maps">
-        <app-google-map
-          [field]="similarField.fields"
-          [zoomControl]='zoomControl'
-          [disableDoubleClickZoom]='disableDoubleClickZoom'
-          [scrollwheel]='scrollwheel'
-          [disableDefaultUI]='disableDefaultUI'
-          [keyboardShortcuts]='keyboardShortcuts'
-          [streetViewControl]='streetViewControl'
-          [showDefaultInfoWindow]='showDefaultInfoWindow'
-          [mapDraggable]='mapDraggable'
-          [clickableIcons]='clickableIcons'
-          [mapTypeControl]='mapTypeControl'
-          [draggableCursor]="draggableCursor"
-        >
-        </app-google-map>
-      </div>
-    </div>
+<!--    <button mat-stroked-button color="primary" (click)="handleClick(field.fields.comlib, field.fields.equipementtypecode)">-->
+<!--      Voir d'autres lieux similaire-->
+<!--    </button>-->
+<!--    <div class="field__container">-->
+<!--      <div *ngFor="let similarField of similarFields" class="field__container__maps">-->
+<!--        <app-google-map-->
+<!--          [field]="similarField.fields"-->
+<!--          [zoomControl]='zoomControl'-->
+<!--          [disableDoubleClickZoom]='disableDoubleClickZoom'-->
+<!--          [scrollwheel]='scrollwheel'-->
+<!--          [disableDefaultUI]='disableDefaultUI'-->
+<!--          [keyboardShortcuts]='keyboardShortcuts'-->
+<!--          [streetViewControl]='streetViewControl'-->
+<!--          [showDefaultInfoWindow]='showDefaultInfoWindow'-->
+<!--          [mapDraggable]='mapDraggable'-->
+<!--          [clickableIcons]='clickableIcons'-->
+<!--          [mapTypeControl]='mapTypeControl'-->
+<!--          [draggableCursor]="draggableCursor"-->
+<!--        >-->
+<!--        </app-google-map>-->
+<!--      </div>-->
+<!--    </div>-->
   </div>
 </div>

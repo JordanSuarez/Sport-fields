@@ -1,2 +1,14 @@
-<app-sport-fields></app-sport-fields>
-
+<app-fields
+  [userFilterInput]="homeModel.userFilterInput"
+  [filterActivated]="homeModel.filterActivated"
+  [paginator]="homeModel.paginator"
+  [isLoading]="isLoading"
+  [noResult]="noResult"
+  [selectedCity]="homeModel.selectedCity"
+  [fields]="homeModel.fields"
+  [selectedFieldType]="homeModel.selectedFieldType"
+  (paginatorEvent)="handleChangePage($event)"
+  (selectCityEvent)="handleChangeCity($event)"
+  (selectedFieldTypeEvent)="handleCheckFieldType($event)"
+  (clearEvent)="handleClearState()"
+></app-fields>

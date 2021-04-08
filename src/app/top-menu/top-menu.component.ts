@@ -7,11 +7,17 @@ import { Component } from '@angular/core';
 })
 export class TopMenuComponent {
 
+  // TODO add dynamic routes on template
+
   navbarCollapsed = true;
 
   constructor() {}
 
   toggleNavbar(): void {
     this.navbarCollapsed = !this.navbarCollapsed;
+  }
+
+  closeNavBar(): void {
+    this.navbarCollapsed = true;
   }
 }

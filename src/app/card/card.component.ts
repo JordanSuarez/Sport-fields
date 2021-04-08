@@ -1,7 +1,7 @@
-import { Component, Input, OnInit } from '@angular/core';
+import {Component, Input, OnInit} from '@angular/core';
 
 import { FieldRecordsModel } from 'src/app/models/field.model';
-import { FieldService } from 'src/app/field.service';
+import { FieldService } from 'src/app/services/field/field.service';
 
 @Component({
   selector: 'app-card',
@@ -11,11 +11,16 @@ import { FieldService } from 'src/app/field.service';
 export class CardComponent implements OnInit {
   @Input() field!: FieldRecordsModel;
 
-  constructor(private fieldService: FieldService) {}
+  handicapAccess!: boolean;
 
-  ngOnInit(): void {}
+  constructor(private fieldService: FieldService) {
+  }
+
+  ngOnInit(): void {
+    this.handicapAccess = this.field.fields.equacceshandimaire === 'Oui';
+  }
 
   handleFieldProvider(field: FieldRecordsModel): void {
-    this.fieldService.getSelectedField(field);
+    this.fieldService.setSelectedField(field);
   }
 }

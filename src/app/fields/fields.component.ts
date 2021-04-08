@@ -1,85 +1,58 @@
-import { Component, OnInit } from '@angular/core';
-import { PageEvent } from '@angular/material/paginator';
+import { Component, EventEmitter, Input, Output } from '@angular/core';
 
-import { FieldRecordsModel, FieldsModel } from 'src/app/models/field.model';
-import { LocationService } from 'src/app/location.service';
-import { FieldService } from 'src/app/field.service';
-import { FIELDS, LocalStorageService } from 'src/app/local-storage.service';
+import { CityModel, FieldRecordsModel, FieldTypeModel } from 'src/app/models/field.model';
+import { fieldTypes, cities } from 'src/assets/data/field';
 import { PaginatorModel } from 'src/app/models/paginator.model';
+import { FilterModel } from 'src/app/models/filter.model';
 
 @Component({
-  selector: 'app-sport-fields',
+  selector: 'app-fields',
   templateUrl: './fields.component.html',
   styleUrls: ['./fields.component.scss']
 })
-export class FieldsComponent implements OnInit {
+export class FieldsComponent {
+  // Filter Inputs
+  @Input() filterActivated!: boolean;
+  @Input() userFilterInput!: FilterModel;
+
   // Paginator Input
-  paginator: PaginatorModel = {
-    length: 0,
-    pageSize: 10,
-    pageIndex: 0,
-  };
+  @Input() paginator!: PaginatorModel;
 
   // Fields Inputs
-  fields: Array<FieldRecordsModel> = [];
-  isLoading = true;
+  @Input() selectedFieldType!: string;
+  @Input() fields: Array<FieldRecordsModel> = [];
+  @Input() isLoading!: boolean;
+  // TODO display no result component if true
+  @Input() noResult!: boolean;
 
-  constructor(
-    private locationService: LocationService,
-    private fieldService: FieldService,
-    private localStorageService: LocalStorageService
-  ) {}
+  // Select city Inputs
+  @Input() selectedCity!: string;
+  cities: Array<CityModel> = cities;
+  fieldTypes: Array<FieldTypeModel> = fieldTypes;
 
-  ngOnInit(): void {
-    if (this.localStorageService.getItem(FIELDS) !== null) {
-      this.fields = this.localStorageService.getItem(FIELDS).fields;
-      this.paginator = this.localStorageService.getItem(FIELDS).paginator;
-      this.isLoading = false;
-    } else {
-      this.fetchFieldsList();
+  // Output
+  @Output() paginatorEvent = new EventEmitter<any>();
+  @Output() selectCityEvent = new EventEmitter<any>();
+  @Output() selectedFieldTypeEvent = new EventEmitter<any>();
+  @Output() clearEvent = new EventEmitter<any>();
+
+  // HTML Inputs
+  template = {
+    title: 'Liste des équipements',
+    selectedCityLabel: 'Sélectionner une ville',
+    addressLabel: 'Adresse sélectionné',
+    selectedFieldType: {
+      label: 'Filtrer par type d\'équipement',
+      option: 'Aucun',
+    },
+  };
+
+  constructor() {}
+
+  handleEvent(event: EventEmitter<any>, eventValue: any = null): void {
+    if (eventValue) {
+      return event.emit(eventValue);
     }
-  }
-
-  handleChangePage(event: PageEvent): void {
-    this.paginator.pageIndex = event.pageIndex;
-    this.isLoading = true;
-    this.fields = [];
-    this.fetchFieldsList();
-  }
-
-  fetchFieldsList(): void {
-    this.fieldService.getFields(this.paginator.pageSize, this.paginator.pageIndex, 'Lyon').subscribe(fields => {
-      this.paginator.length = fields.nhits;
-      this.fetchFieldsLocation(fields);
-    });
-  }
-
-  fetchFieldsLocation(fields: FieldsModel): void {
-    fields.records.map((field: FieldRecordsModel) => {
-        this.locationService
-          .getFieldLocation(field.fields.coordonnees[0], field.fields.coordonnees[1])
-          .subscribe(({features}) => {
-            this.fields = [
-              ...this.fields,
-              {
-                ...field,
-                location: features[0].properties,
-              }
-            ];
-            this.localStorageService.setItem(
-              FIELDS,
-              {
-                fields: this.fields,
-                paginator: {
-                  length: this.paginator.length,
-                  pageIndex: this.paginator.pageIndex
-                }
-              }
-            );
-            this.isLoading = false;
-          })
-        ;
-      }
-    );
+    return event.emit();
   }
 }
