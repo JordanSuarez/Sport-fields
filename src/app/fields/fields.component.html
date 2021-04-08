@@ -15,10 +15,16 @@
           <mat-icon>cancel</mat-icon>
         </button>
       </mat-form-field>
-      <mat-form-field appearance="outline" class="fields__header__select__field">
+      <mat-form-field appearance="outline" class="fields__header__select__field" *ngIf="selectedFieldType">
+        <mat-label>{{template.selectedFieldType.label}}</mat-label>
+        <input disabled matInput [(ngModel)]="selectedFieldType">
+        <button mat-button matSuffix mat-icon-button aria-label="Clear" (click)="handleEvent(selectedFieldTypeEvent, $event)">
+          <mat-icon>cancel</mat-icon>
+        </button>
+      </mat-form-field>
+      <mat-form-field appearance="outline" class="fields__header__select__field" *ngIf="!selectedFieldType">
         <mat-label>{{template.selectedFieldType.label}}</mat-label>
         <mat-select [(value)]="selectedFieldType" (selectionChange)="handleEvent(selectedFieldTypeEvent, $event)">
-          <mat-option>{{template.selectedFieldType.option}}</mat-option>
           <mat-option *ngFor="let fieldType of fieldTypes" [value]="fieldType.name" >
             {{fieldType.name}}
           </mat-option>
