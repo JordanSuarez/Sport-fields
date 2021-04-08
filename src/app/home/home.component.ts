@@ -90,6 +90,7 @@ export class HomeComponent implements OnInit, OnDestroy {
             this.homeModel.paginator.length = fields.nhits;
             return fields.records.map(field => this.fetchFieldsLocation(field));
           },
+          error: () => this.noResult = true,
         });
   }
 
@@ -127,6 +128,7 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.homeModel.selectedFieldType = '';
     this.sessionStorageService.removeItem(HOME_FIELDS);
     this.homeModel.filterActivated = false;
+    this.noResult = false;
     this.resetPaginator();
     this.fetchFieldsList();
   }
