@@ -32,7 +32,7 @@
         margin-top: 1rem;
         width: 15rem;
 
-        & input:disabled{
+        & input:disabled {
           color: vars.$black;
         }
         @media(max-width: vars.$breakpoint-md) {
