@@ -35,6 +35,7 @@ export class FieldsComponent {
   @Output() selectCityEvent = new EventEmitter<any>();
   @Output() selectedFieldTypeEvent = new EventEmitter<any>();
   @Output() clearEvent = new EventEmitter<any>();
+  @Output() noResultEvent = new EventEmitter<any>();
 
   // HTML Inputs
   template = {

@@ -23,6 +23,7 @@ import { AppRoutingModule } from './app-routing.module';
 import { HomeComponent } from './home/home.component';
 import { CardComponent } from './card/card.component';
 import { AppComponent } from './app.component';
+import { NoResultComponent } from './no-result/no-result.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -40,6 +41,7 @@ registerLocaleData(localeFr, 'fr');
     FilterComponent,
     SelectComponent,
     BottomSheetComponent,
+    NoResultComponent,
   ],
   imports: [
     MaterialModule,

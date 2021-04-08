@@ -16,6 +16,7 @@ export const fieldTypes: Array<FieldTypeModel> = [
 ];
 
 export const fieldsDistance: Array<FieldDistanceModel> = [
+  {distance: 5, label: '5m'},
   {distance: 500, label: '500m'},
   {distance: 1000, label: '1km'},
   {distance: 5000, label: '5km'},

@@ -32,6 +32,7 @@
       </mat-form-field>
     </section>
   </section>
+  <app-no-result *ngIf="noResult && !isLoading" (noResultEvent)="handleEvent(noResultEvent)"></app-no-result>
   <app-spinner [isLoading]="isLoading"></app-spinner>
   <div class="fields__container">
     <div *ngFor="let field of fields" class="fields__card">
