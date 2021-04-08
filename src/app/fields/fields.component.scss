@@ -31,6 +31,10 @@
         margin-left: 1rem;
         margin-top: 1rem;
         width: 15rem;
+
+        & input:disabled{
+          color: vars.$black;
+        }
         @media(max-width: vars.$breakpoint-md) {
           margin-left: 0;
         }
@@ -48,4 +52,12 @@
   &__card {
     width: 30rem;
   }
+}
+
+::ng-deep.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-outline {
+  color: vars.$grey;
+}
+
+::ng-deep.mat-form-field-appearance-outline.mat-form-field-disabled .mat-form-field-label {
+  color: vars.$grey;
 }

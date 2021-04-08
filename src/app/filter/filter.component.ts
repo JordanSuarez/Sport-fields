@@ -27,6 +27,10 @@ export class FilterComponent {
   location!: LocationModel;
   addressList: Array<LocationModel> = [];
 
+  // Regex pattern
+  postCodePattern = '[0-9]{5}';
+  streetNumberPattern = '^[0-9]*$';
+
   // Form control Inputs
   cityCtrl = new FormControl('', Validators.required);
   streetNameCtrl = new FormControl('', Validators.required);
@@ -34,11 +38,12 @@ export class FilterComponent {
   streetNumberCtrl = new FormControl('', [
       Validators.required,
       Validators.min(1),
+      Validators.pattern(this.streetNumberPattern),
     ]
   );
   postCodeCtrl = new FormControl('', [
       Validators.required,
-      Validators.pattern('[0-9]{5}'),
+      Validators.pattern(this.postCodePattern),
     ]
   );
 
