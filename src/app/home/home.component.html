@@ -8,8 +8,8 @@
   [fields]="homeModel.fields"
   [selectedFieldType]="homeModel.selectedFieldType"
   (paginatorEvent)="handleChangePage($event)"
-  (selectCityEvent)="handleChangeCity($event)"
-  (selectedFieldTypeEvent)="handleCheckFieldType($event)"
+  (selectCityEvent)="handleChangeUserInputValue($event, 'selectedCity')"
+  (selectedFieldTypeEvent)="handleChangeUserInputValue($event.value, 'selectedFieldType')"
   (clearEvent)="handleClearState()"
   (noResultEvent)="handleClearState()"
 ></app-fields>
