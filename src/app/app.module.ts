@@ -6,6 +6,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { LayoutModule } from '@angular/cdk/layout';
 import localeFr from '@angular/common/locales/fr';
 import { AgmCoreModule } from '@agm/core';
+import { AgmDirectionModule } from 'agm-direction';
 
 import { MaterialModule } from 'src/app/modules/material-modules';
 
@@ -25,6 +26,7 @@ import { CardComponent } from './card/card.component';
 import { AppComponent } from './app.component';
 import { NoResultComponent } from './no-result/no-result.component';
 import { ServiceWorkerModule } from '@angular/service-worker';
+import { DialogComponent } from './dialog/dialog.component';
 
 registerLocaleData(localeFr, 'fr');
 
@@ -43,6 +45,7 @@ registerLocaleData(localeFr, 'fr');
     SelectComponent,
     BottomSheetComponent,
     NoResultComponent,
+    DialogComponent,
   ],
   imports: [
     MaterialModule,
@@ -55,6 +58,7 @@ registerLocaleData(localeFr, 'fr');
     }),
     ReactiveFormsModule,
     FormsModule,
+    AgmDirectionModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable

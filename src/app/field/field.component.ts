@@ -15,29 +15,14 @@ import { LocationPropertiesModel } from 'src/app/models/location.model';
   styleUrls: ['./field.component.scss']
 })
 export class FieldComponent implements OnInit, OnDestroy {
-  // GoogleMap Input
-  zoomControl = false;
-  disableDoubleClickZoom = true;
-  scrollwheel = false;
-  disableDefaultUI = true;
-  keyboardShortcuts = false;
-  streetViewControl = false;
-  openInfoWindow = false;
-  showDefaultInfoWindow = false;
-  mapDraggable = false;
-  clickable = false;
-  clickableIcons = false;
-  mapTypeControl = false;
-  draggableCursor = 'cursor';
-
   // Field Input
   field!: FieldRecordsModel;
   fieldLocation!: LocationPropertiesModel;
-  isLoading = true;
   similarFields!: Array<FieldRecordsModel>;
   subscription!: Subscription;
-  date!: string;
+  isLoading = true;
   localID: string;
+  date!: string;
 
   constructor(
     private fieldService: FieldService,

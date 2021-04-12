@@ -15,6 +15,7 @@
   [clickableIcons]='clickableIcons'
   [mapTypeControl]='mapTypeControl'
   [draggableCursor]="draggableCursor"
+  class="map"
 >
   <agm-marker
     [latitude]='latitude'
@@ -22,8 +23,9 @@
     [title]='title'
     [openInfoWindow]='openInfoWindow'
   >
-    <agm-info-window>
+    <agm-info-window [isOpen]="isOpen">
       <strong>{{field.equnom}}</strong>
+      <button mat-raised-button color="primary" type="button" class="map__button" (click)="openDialog()">Voir l'itinéraire</button>
     </agm-info-window>
   </agm-marker>
 </agm-map>

@@ -36,7 +36,6 @@ export class HomeComponent implements OnInit, OnDestroy {
     filterActivated: false,
   } as unknown as HomeModel;
 
-
   constructor(
     private locationService: LocationService,
     private fieldService: FieldService,
