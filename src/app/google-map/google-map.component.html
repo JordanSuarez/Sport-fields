@@ -20,12 +20,12 @@
   <agm-marker
     [latitude]='latitude'
     [longitude]='longitude'
-    [title]='title'
-    [openInfoWindow]='openInfoWindow'
   >
-    <agm-info-window [isOpen]="isOpen">
-      <strong>{{field.equnom}}</strong>
-      <button mat-raised-button color="primary" type="button" class="map__button" (click)="openDialog()">Voir l'itinéraire</button>
-    </agm-info-window>
+    <agm-snazzy-info-window [isOpen]="isOpen" padding="1rem" borderRadius=".5rem">
+      <ng-template>
+        <span>{{field.equnom}}</span>
+        <button mat-raised-button color="primary" type="button" class="map__button" (click)="openDialog()">Voir l'itinéraire</button>
+      </ng-template>
+    </agm-snazzy-info-window>
   </agm-marker>
 </agm-map>

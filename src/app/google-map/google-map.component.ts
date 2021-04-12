@@ -23,7 +23,6 @@ export class GoogleMapComponent implements OnInit {
   @Input() disableDefaultUI = false;
   @Input() keyboardShortcuts = true;
   @Input() streetViewControl = true;
-  @Input() openInfoWindow = true;
   @Input() showDefaultInfoWindow = true;
   @Input() mapDraggable = true;
   @Input() clickable = true;
@@ -35,7 +34,6 @@ export class GoogleMapComponent implements OnInit {
   zoom = 18;
   minZoom = 10;
   mapTypeId = 'roadmap';
-  title = 'toto';
 
   // Info window
   isOpen = true;
@@ -43,7 +41,6 @@ export class GoogleMapComponent implements OnInit {
   constructor(public dialog: MatDialog) {}
 
   ngOnInit(): void {
-    console.log(this.fieldLocation);
     this.getCoordinates();
   }
 
