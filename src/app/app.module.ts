@@ -6,7 +6,7 @@ import { NgModule, LOCALE_ID } from '@angular/core';
 import { LayoutModule } from '@angular/cdk/layout';
 import localeFr from '@angular/common/locales/fr';
 import { AgmCoreModule } from '@agm/core';
-import { AgmDirectionModule } from 'agm-direction';
+import { AgmSnazzyInfoWindowModule } from '@agm/snazzy-info-window';
 
 import { MaterialModule } from 'src/app/modules/material-modules';
 
@@ -58,7 +58,7 @@ registerLocaleData(localeFr, 'fr');
     }),
     ReactiveFormsModule,
     FormsModule,
-    AgmDirectionModule,
+    AgmSnazzyInfoWindowModule,
     ServiceWorkerModule.register('ngsw-worker.js', {
       enabled: environment.production,
       // Register the ServiceWorker as soon as the app is stable
