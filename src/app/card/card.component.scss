@@ -2,7 +2,7 @@
 
 .card {
   margin: 1rem;
-  padding: 1rem;
+  padding: 1rem 1rem 1.6rem;
   min-height: 12rem;
   display: flex;
   flex-direction: column;
@@ -17,10 +17,12 @@
   }
 
   &__actions {
-    display: flex;
-    margin: 0.1rem;
-    flex-wrap: wrap;
+    width: 100%;
     padding-top: 0;
+    display: flex;
+    flex-wrap: wrap;
+    align-self: center;
+    align-items: baseline;
     justify-content: space-between;
     @media (max-width: vars.$breakpoint-sm) {
       flex-direction: column-reverse;

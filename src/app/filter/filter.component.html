@@ -3,7 +3,7 @@
   <form (ngSubmit)="handleSubmit()" [formGroup]="formValues" class="filter__form" *ngIf="!selectButtonActivated">
     <mat-form-field class="filter__form__input" appearance="outline">
       <mat-label>{{template.streetNumber.label}}</mat-label>
-      <input matInput [placeholder]="template.streetNumber.placeholder" type="number" [formControl]="streetNumberCtrl" (click)="noResult= false">
+      <input matInput [placeholder]="template.streetNumber.placeholder" type="number" inputmode="decimal" [pattern]="streetNumberPattern" [formControl]="streetNumberCtrl" (click)="noResult= false">
       <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('required')">{{template.input.required}}</mat-error>
       <mat-error *ngIf="streetNumberCtrl.dirty && streetNumberCtrl.hasError('min')">
         {{template.streetNumber.error}}
@@ -16,7 +16,7 @@
     </mat-form-field>
     <mat-form-field class="filter__form__input" appearance="outline">
       <mat-label>{{template.postCode.label}}</mat-label>
-      <input matInput [placeholder]="template.postCode.placeholder" type="number" [formControl]="postCodeCtrl" (click)="noResult= false">
+      <input matInput [placeholder]="template.postCode.placeholder" type="number" inputmode="decimal" [pattern]="postCodePattern" [formControl]="postCodeCtrl" (click)="noResult= false">
       <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('required')">{{template.input.required}}</mat-error>
       <mat-error *ngIf="postCodeCtrl.dirty && postCodeCtrl.hasError('pattern')">
         {{template.postCode.error}}

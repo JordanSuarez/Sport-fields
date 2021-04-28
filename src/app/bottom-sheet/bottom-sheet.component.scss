@@ -1,1 +1,7 @@
+@use 'src/vars';
 
+.bottom-sheet__button {
+  @media(max-width: vars.$breakpoint-sm) {
+    width: 100%;
+  }
+}

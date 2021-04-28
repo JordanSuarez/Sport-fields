@@ -1,3 +1,8 @@
-agm-map {
+.map {
   height: 20rem;
+  &__button {
+    display: block;
+    margin-top: 1rem;
+    width: 100%;
+  }
 }

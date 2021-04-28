@@ -5,7 +5,7 @@ import { Subscription } from 'rxjs';
 import { FieldService } from 'src/app/services/field/field.service';
 import { SessionStorageService } from 'src/app/services/session-storage/session-storage.service';
 import { HOME_FIELDS } from 'src/app/constants/session-storage';
-import {FieldRecordsModel, FieldsModel, HomeModel} from 'src/app/models/field.model';
+import { FieldRecordsModel, FieldsModel, HomeModel } from 'src/app/models/field.model';
 import { LocationService } from 'src/app/services/location/location.service';
 import { cities } from 'src/assets/data/field';
 
@@ -21,7 +21,7 @@ export class HomeComponent implements OnInit, OnDestroy {
   filterSubscription!: Subscription;
 
   // Fields Inputs
-  noResult!: boolean;
+  noResult = false;
   isLoading = true;
 
   homeModel: HomeModel = {
@@ -36,11 +36,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     filterActivated: false,
   } as unknown as HomeModel;
 
-
   constructor(
     private locationService: LocationService,
     private fieldService: FieldService,
-    private sessionStorageService: SessionStorageService
+    private sessionStorageService: SessionStorageService,
   ) {}
 
   ngOnInit(): void {
@@ -48,22 +47,30 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.fetchFilteredFieldsList();
   }
 
+  ngOnDestroy(): void {
+    if (this.filterSubscription !== null) {
+      this.filterSubscription.unsubscribe();
+    }
+  }
+
   fetchFilteredFieldsList(): void {
     this.filterSubscription = this.fieldService.filteredField.subscribe({
-      next: (fieldLocation) => {
-        if (fieldLocation) {
-          if (fieldLocation !== this.homeModel.userFilterInput) {
-            this.sessionStorageService.removeItem(HOME_FIELDS);
+        next: (fieldLocation) => {
+          if (fieldLocation) {
+            if (fieldLocation !== this.homeModel.userFilterInput) {
+              this.sessionStorageService.removeItem(HOME_FIELDS);
+            }
+            this.homeModel = {
+              ...this.homeModel,
+              userFilterInput: fieldLocation,
+              selectedFieldType: '',
+              filterActivated: true
+            };
+            this.resetPaginator();
           }
-          this.resetPaginator();
-          this.homeModel.selectedFieldType = '';
-          this.homeModel.userFilterInput = fieldLocation;
-          this.homeModel.filterActivated = true;
           return this.getFieldsDataFromSessionStorage();
-        }
-        return this.getFieldsDataFromSessionStorage();
-      },
-    });
+        },
+      });
   }
 
   getFieldsDataFromSessionStorage(): void {
@@ -88,8 +95,10 @@ export class HomeComponent implements OnInit, OnDestroy {
               return this.noResult = true;
             }
             this.homeModel.paginator.length = fields.nhits;
+            this.noResult = false;
             return fields.records.map(field => this.fetchFieldsLocation(field));
           },
+          error: () => this.noResult = true,
         });
   }
 
@@ -123,12 +132,8 @@ export class HomeComponent implements OnInit, OnDestroy {
   }
 
   handleClearState(): void {
-    this.resetFieldsContentBeforeFetchingData();
-    this.homeModel.selectedFieldType = '';
     this.sessionStorageService.removeItem(HOME_FIELDS);
-    this.homeModel.filterActivated = false;
-    this.resetPaginator();
-    this.fetchFieldsList();
+    location.reload();
   }
 
   handleChangePage(event: PageEvent): void {
@@ -136,21 +141,10 @@ export class HomeComponent implements OnInit, OnDestroy {
     this.fetchFieldsList();
   }
 
-  handleChangeCity(value: string): void {
-    this.homeModel.selectedCity = value;
+  handleChangeUserInputValue(value: string, context: string): void {
+    // @ts-ignore
+    this.homeModel[context] = value ? value : '';
     this.resetPaginator();
     this.fetchFieldsList();
-  }
-
-  handleCheckFieldType({value}: any): void {
-    this.homeModel.selectedFieldType = value ? value : '';
-    this.resetPaginator();
-    this.fetchFieldsList();
-  }
-
-  ngOnDestroy(): void {
-    if (this.filterSubscription) {
-      this.filterSubscription.unsubscribe();
-    }
   }
 }
